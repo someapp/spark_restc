@@ -1,0 +1,307 @@
+DEBUG: Consult config file "/opt/spark_rabbitc/rebar.config"
+DEBUG: Rebar location: "/opt/spark_rabbitc/rebar"
+DEBUG: is_rel_dir(/opt/spark_rabbitc) -> false
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/src/restc.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1.0"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
+DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/restc",restc,".*",
+                             {git,"https://github.com/kivra/restclient.git",
+                                  "master"},
+                             false}]
+DEBUG: Missing deps  : []
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
+DEBUG: Adding /opt/spark_rabbitc/deps/restc/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/restc with /opt/spark_rabbitc
+DEBUG: Associate sub_dir /opt/spark_rabbitc/rel with /opt/spark_rabbitc
+DEBUG: Predirs: ["/opt/spark_rabbitc/deps/restc","/opt/spark_rabbitc/rel"]
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/rebar.config"
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/src/jsx.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.3.1"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/src/mochiweb_util.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/src/erlsom.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.2.1"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
+DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/jsx",jsx,".",
+                             {git,"git://github.com/talentdeficit/jsx.git",
+                                  {tag,"v1.3.1"}},
+                             false},
+                        {dep,"/opt/spark_rabbitc/deps/mochiweb_util",
+                             mochiweb_util,".",
+                             {git,"git://github.com/bipthelin/mochiweb_util.git",
+                                  "master"},
+                             false},
+                        {dep,"/opt/spark_rabbitc/deps/erlsom",erlsom,".",
+                             {git,"git://github.com/willemdj/erlsom.git",
+                                  {tag,"a267a5d40"}},
+                             false}]
+DEBUG: Missing deps  : []
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
+DEBUG: Adding /opt/spark_rabbitc/deps/jsx/ebin to code path
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
+DEBUG: Adding /opt/spark_rabbitc/deps/mochiweb_util/ebin to code path
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
+DEBUG: Adding /opt/spark_rabbitc/deps/erlsom/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/jsx with /opt/spark_rabbitc/deps/restc
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/mochiweb_util with /opt/spark_rabbitc/deps/restc
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/erlsom with /opt/spark_rabbitc/deps/restc
+DEBUG: Predirs: ["/opt/spark_rabbitc/deps/jsx",
+                 "/opt/spark_rabbitc/deps/mochiweb_util",
+                 "/opt/spark_rabbitc/deps/erlsom"]
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> jsx (get-deps)
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> mochiweb_util (get-deps)
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> erlsom (get-deps)
+DEBUG: Postdirs: []
+==> restc (get-deps)
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_rabbitc/rel/rebar.config"
+DEBUG: is_rel_dir(/opt/spark_rabbitc/rel) -> {true,
+                                              "/opt/spark_rabbitc/rel/reltool.config"}
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> rel (get-deps)
+DEBUG: Postdirs: []
+==> spark_rabbitc (get-deps)
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_rabbitc/rebar.config"
+DEBUG: Rebar location: "/opt/spark_rabbitc/rebar"
+DEBUG: is_rel_dir(/opt/spark_rabbitc) -> false
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/src/restc.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1.0"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
+DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/restc",restc,".*",
+                             {git,"https://github.com/kivra/restclient.git",
+                                  "master"},
+                             false}]
+DEBUG: Missing deps  : []
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
+DEBUG: Adding /opt/spark_rabbitc/deps/restc/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/restc with /opt/spark_rabbitc
+DEBUG: Associate sub_dir /opt/spark_rabbitc/rel with /opt/spark_rabbitc
+DEBUG: Predirs: ["/opt/spark_rabbitc/deps/restc","/opt/spark_rabbitc/rel"]
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/rebar.config"
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/src/jsx.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.3.1"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/src/mochiweb_util.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/src/erlsom.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.2.1"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
+DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/jsx",jsx,".",
+                             {git,"git://github.com/talentdeficit/jsx.git",
+                                  {tag,"v1.3.1"}},
+                             false},
+                        {dep,"/opt/spark_rabbitc/deps/mochiweb_util",
+                             mochiweb_util,".",
+                             {git,"git://github.com/bipthelin/mochiweb_util.git",
+                                  "master"},
+                             false},
+                        {dep,"/opt/spark_rabbitc/deps/erlsom",erlsom,".",
+                             {git,"git://github.com/willemdj/erlsom.git",
+                                  {tag,"a267a5d40"}},
+                             false}]
+DEBUG: Missing deps  : []
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
+DEBUG: Adding /opt/spark_rabbitc/deps/jsx/ebin to code path
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
+DEBUG: Adding /opt/spark_rabbitc/deps/mochiweb_util/ebin to code path
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
+DEBUG: Adding /opt/spark_rabbitc/deps/erlsom/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/jsx with /opt/spark_rabbitc/deps/restc
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/mochiweb_util with /opt/spark_rabbitc/deps/restc
+DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/erlsom with /opt/spark_rabbitc/deps/restc
+DEBUG: Predirs: ["/opt/spark_rabbitc/deps/jsx",
+                 "/opt/spark_rabbitc/deps/mochiweb_util",
+                 "/opt/spark_rabbitc/deps/erlsom"]
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> jsx (compile)
+DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
+DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: erl_opts [debug_info,
+                 {i,"src"},
+                 warn_unused_vars,warn_export_all,warn_shadow_vars,
+                 warn_unused_import,warn_unused_function,warn_bif_clash,
+                 warn_unused_record,warn_deprecated_function,
+                 warn_obsolete_guard,strict_validation,warn_export_vars,
+                 warn_exported_vars]
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/jsx_verify.erl
+INFO:  Skipped src/jsx_encoder.erl
+INFO:  Skipped src/jsx_parser.erl
+INFO:  Skipped src/jsx.erl
+INFO:  Skipped src/jsx_utils.erl
+INFO:  Skipped src/jsx_to_json.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/jsx_to_term.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/jsx_decoder.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> mochiweb_util (compile)
+DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
+DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: erl_opts [debug_info,
+                 {i,["../..","../include"]},
+                 {src_dirs,[src]},
+                 warn_format,warn_export_all,warn_export_vars,
+                 warn_obselete_guard,warn_unused_import,warn_bif_clash,
+                 warn_missing_spec,warn_utyped_record,
+                 {parse_transform},
+                 {debug_info}]
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/mochiweb_mime.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/mochinum.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/mochiweb_util.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> erlsom (compile)
+DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
+DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: erl_opts [debug_info,debug_info]
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/erlsom_add.erl
+INFO:  Skipped src/ucs.erl
+INFO:  Skipped src/erlsom_sax.erl
+INFO:  Skipped src/erlsom_ucs.erl
+INFO:  Skipped src/erlsom_writeHrl.erl
+INFO:  Skipped src/erlsom_sax_utf8.erl
+INFO:  Skipped src/erlsom_sax_latin1.erl
+INFO:  Skipped src/erlsom_sax_utf16le.erl
+INFO:  Skipped src/erlsom_sax_utf16be.erl
+INFO:  Skipped src/erlsom_compile.erl
+INFO:  Skipped src/erlsom.erl
+INFO:  Skipped src/erlsom_simple_form.erl
+INFO:  Skipped src/erlsom_sax_lib.erl
+INFO:  Skipped src/erlsom_parse.erl
+INFO:  Skipped src/erlsom_sax_list.erl
+INFO:  Skipped src/erlsom_lib.erl
+INFO:  Skipped src/erlsom_write.erl
+INFO:  Skipped src/erlsom_parseXsd.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/erlsom_sax_latin9.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/erlsom_pass2.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+==> restc (compile)
+DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
+DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
+DEBUG: erl_opts [debug_info,
+                 {i,["../..","../include"]},
+                 {src_dirs,[src]},
+                 warn_format,warn_export_all,warn_export_vars,
+                 warn_obselete_guard,warn_unused_import,warn_bif_clash,
+                 warn_missing_spec,warn_utyped_record,
+                 {parse_transform},
+                 {debug_info}]
+DEBUG: Starting 3 compile worker(s)
+DEBUG: Worker exited cleanly
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/restc.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_rabbitc/rel/rebar.config"
+DEBUG: is_rel_dir(/opt/spark_rabbitc/rel) -> {true,
+                                              "/opt/spark_rabbitc/rel/reltool.config"}
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> rel (compile)
+DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
+DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: Postdirs: []
+==> spark_rabbitc (compile)
+INFO:  sh info:
+	cwd: "/opt/spark_rabbitc"
+	cmd: ./download_dep.sh
+DEBUG: 	opts: [{env,[{"REBAR_DEPS_DIR","/opt/spark_rabbitc/deps"},
+                     {"ERL_LIBS","/opt/spark_rabbitc/deps"}]},
+               {abort_on_error,"Command [compile] failed!\n"}]
+Download header files
+Downloading ejabberd.hrl and jlib.hrl
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0  2391    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2391  100  2391    0     0   9242      0 --:--:-- --:--:-- --:--:-- 2334k
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0 20084    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 20084  100 20084    0     0  64484      0 --:--:-- --:--:-- --:--:-- 1961k
+Move header files to include dir
+`ejabberd.hrl' -> `./include/ejabberd.hrl'
+`jlib.hrl' -> `./include/jlib.hrl'
+DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
+DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
+DEBUG: Postdirs: []
