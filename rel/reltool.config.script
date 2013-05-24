@@ -28,7 +28,9 @@ PkgNameAtom = list_to_atom(PkgName),
        {excl_app_filters, ["\.gitignore"]},
        {app, sasl,   [{incl_cond, include}]},
        {app, stdlib, [{incl_cond, include}]},
-       {app, kernel, [{incl_cond, include}]}
+       {app, kernel, [{incl_cond, include}]},
+%% PreR15       {app, PkgNameAtom, [{incl_cond, include}]}
+       {app, PkgNameAtom, [{incl_cond, include},{lib_dir,"../apps"}]}
       ]},
 
 {target_dir, PkgName},
