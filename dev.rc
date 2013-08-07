@@ -1,0 +1,6 @@
+export ERLANG_HOME=/opt/erlang
+export ERL_LIBS=${ERLANG_HOME}/lib
+export PATH=$ERLANG_HOME.bin:$PATH
+echo $ERLANG_HOME
+echo $ERL_LIBS
+echo $PATH

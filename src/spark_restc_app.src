@@ -1,12 +1,30 @@
 {application, spark_restc_srv,
  [
-  {description, "RabbitMQ client for spark. Absract some details away"},
+  {description, "Spark RestAPI consumer, as a service"},
   {vsn, "${PACKAGE_VERSION}"},
-  {registered, []},
+  {registered, [spark_restapi_consumer]},
   {applications, [
                   kernel,
-                  stdlib
+                  stdlib,
+                  crypto,
+                  public_keys, 
+                  ssl,
+                  inets,
+                  restc,
+                  syntax_tools, 
+				  compiler, 
+		          crypto,
+		          goldrush,		          
+		          lager
                  ]},
+  {modules, [
+  	spark_restc_app,
+  	spark_restc_sup,
+  	spark_restc_gen_rest_req,
+  	spark_restc_gen_rest_resp,
+  	spark_restc_gen_handler,
+  	spark_restc_log_handler
+  ]},
   {mod, { spark_restc_app, []}},
   {env, []}
  ]}.
