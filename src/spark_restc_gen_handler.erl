@@ -6,12 +6,20 @@
 -include_lib("kernel/include/file.hrl").
 -endif.
 
+-export([post_rest_request/0,
+		 verify_rest_response/0
+]).
+
 -record(state, {}).
 
 -type state() :: #state{}.
 -type message():: term().
 -type reason() :: tuple().
 -type ok_or_error():: {ok, state() | {error, reason()}.
+
+
+
+
 
 
 
