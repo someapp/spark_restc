@@ -32,13 +32,6 @@
 
 
 
-
-
--ifdef(TEST)
-
-
--endif.
-
 	
 get_active_handlers()->
 
@@ -46,5 +39,10 @@ get_active_handlers()->
 start_handler(Name) when is_atom(Name)->
 
 
-	 
+-ifdef(TEST)
+
+
+
+
+-endif. 
 		 

@@ -26,5 +26,9 @@
   	spark_restc_log_handler
   ]},
   {mod, { spark_restc_app, []}},
-  {env, []}
+  {env, [
+ 	  {conf_path, <<"etc">>},
+  	  {conf_file, <<spark_restc.yaml>>},
+  	  {use_mnesia_conf_store, false}
+  ]}
  ]}.

@@ -10,6 +10,9 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
+    Conf_path = a, <<"etc">>},
+  	Conf_file, <<spark_restc.yaml>>},
+  	Use_mnesia_conf_store, false}
     spark_restc_sup:start_link().
 
 stop(_State) ->

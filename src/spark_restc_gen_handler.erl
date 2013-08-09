@@ -10,7 +10,11 @@
 		 verify_rest_response/0
 ]).
 
--record(state, {}).
+-record(state, {
+	current_state = undefined :: atom(),
+	next_state = undefined :: atom()
+
+}).
 
 -type state() :: #state{}.
 -type message():: term().
