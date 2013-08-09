@@ -27,6 +27,9 @@ start_link() ->
 %% ===================================================================
 
 init(Args) ->
-    Children = [?CHILD(spark_restc_gen_rest_server, worker, Args)],
+    Children = [
+   			?CHILD(spark_restc_config_server, worket, Args),
+    		?CHILD(spark_restc_gen_rest_server, worker, Args)
+    ],
     {ok, { {one_for_one, 5, 10}, Children} }.
 

@@ -13,12 +13,15 @@
 
 start(_StartType, _StartArgs) ->
 	ok = ensure_dependency_started(),
-    Conf_path = 
+    Conf_path0 = 
     		application:get_env(?APP, conf_path,undefined),
   	Conf_file = 
   			application:get_env(?APP, conf_file,undefined),
   	Use_mnesia_conf_store = 
   			application:get_env(?APP, use_mnesia_conf_store, false),
+  	
+  	Conf_path = real_dir_path(Conf_path0),		
+  			
 	error_logger:info_msg("[~p] Using config path ~p",
 			[?APP, Conf_path]),
 	error_logger:info_msg("[~p] Using config file: ~p",
