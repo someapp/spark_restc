@@ -10,20 +10,19 @@
 
 -export([
 	 	load_config/1,
+	    load_config_db/1,
 	 	version/0,
-	 	spark_api_endpoint/0, 
-	 	spark_app_id/0,
-	 	spark_client_secret/0,
+	 	spark_api_endpoint/1, 
+	 	spark_app_id/1,
+	 	spark_client_secret/1,
 	 	spark_oauth_access_token/0, 
 	 	spark_communityid_brandid_map/0,
 	 	auth_profile_miniProfile/0, 
 	 	profile_memberstatus/0, 
-%	 	send_missed_im/0,
+	 	send_im_mail_message/0,
  		rest_client_timeout_in_sec/0,
 	 	rest_call_retry_attempt/0
        ]).
-
-
 
 -export([start/1,
          init/1].
@@ -34,9 +33,6 @@
 		 handle_info/2, 
 		 terminate/2, 
 		 code_change/3]).
-
-
-
 
 -type url() :: string() | undefined.
 -type accessToken() :: string() | undefined.
@@ -49,12 +45,15 @@
 -include_lib("kernel/include/file.hrl").
 -endif.
 
+-include_lib("spark_restc_schema.hrl").
 
 -define(DEFAULT_RESTCONN_TIMEOUT,5).
 -define(DEFAULT_RESTCONN_RETRY,3).
+-define(SERVER, ?MODULE).
 
 -record(state,{
-	filename = [] :: file:name()
+    use_mnesia = false,
+	filename = [] :: file:name(),
 	config_list = [] ::list()
 
 }).
@@ -64,55 +63,86 @@
 %% ===================================================================
 
 load_config(Filename)->
-   yamerl_constr:file(Filename).
-
-unload_config()-> unload_config(?APP_ENV).  
-unload_config(Name)->
-   ok = app_helper:ensure_config_unloaded(Name).
-
-reload_config(Name)->
-   unload_config(Name),
-   load_config(Name).
-
+  % yamerl_constr:file(Filename).
+  {ok, ConfList} = file:consult(Filename),
+  {ok, ConfList}.
+  
 config_version(List)->
   get_key_val(List, version, undefined).
-  
-system_app_id(List, Environment) when is_atom(Environment) ->
-  get_key_val(List, app_id, "1017").
 
-system_brand_id(List, Environment) when is_atom(Environment) ->
-  get_key_val(List, brand_id, "1003").
 
-system_member_id(List, Environment) when is_atom(Environment)->
-  get_key_val(List, member_id, "27029711"). 
+environment(Environment) when is_atom(Environment)->
+  gen_server:call(?SERVER, environment).
+
+environment([], _) -> [];
+environment(List, Environment)-> when is_atom(Environment)->
+  get_key_val(List, Environment, []);
+environment(_,_) -> {error, badarg}.
+
+system_app_id(Environment)->
+  gen_server:call(?SERVER, {system_app_id, Environment}).
+ 
+system_app_id(List, Environment) ->
+  {ok, SectionList} = environment(List, Environment),
+  get_key_val(SectionList, app_id, "1017").
+
+system_brand_id(Environment)->
+  gen_server:call(?SERVER, {system_brand_id, Environment}).
+
+system_brand_id(List, Environment) ->
+  {ok, SectionList} = environment(List, Environment),
+  get_key_val(SectionList, brand_id, "1003").
+
+system_member_id(Environment)->
+  gen_server:call(?SERVER, {system_member_id, Environment}).
+
+system_member_id(List, Environment) ->
+  {ok, SectionList} = environment(List, Environment),
+  get_key_val(SectionList, member_id, "27029711"). 
   
-system_client_secret(List, Environment) when is_atom(Environment)->
-  get_key_val(List, 
+system_client_secret(Environment)->
+  gen_server:call(?SERVER, {system_client_secret, Environment}).  
+  
+system_client_secret(List, Environment)->
+  get_key_val(SectionList, 
       client_secret, "93XDnCIn30rNYcHVgOJ77kzZzjkCmhrUm3NJ1bf5gNA=").
+
+create_oauth_accesstoken(Environment)->
+  gen_server:call(?SERVER, {create_oauth_accesstoken, Environment}).
 
 create_oauth_accesstoken(List, _Environment) ->
   get_key_val(List, create_oauth_accesstoken, 
   	"{base_url}/brandId/{brandId}/oauth2/accesstoken/application/{applicationId}").
   	
+profile_miniProfile(Environment)->
+  gen_server:call(?SERVER, {profile_miniProfile, Environment}).  	 	
 profile_miniProfile(List, _Environment) ->	
   get_key_val(List, profile_miniProfile,
   	"{base_url}/brandId/{brandId}/profile/attributeset/miniProfile/{targetMemberId}").  	
+
+profile_memberstatus(Environment)->
+  gen_server:call(?SERVER, {profile_memberstatus, Environment}).  
 
 profile_memberstatus(List, _Environment) ->
   get_key_val(List, profile_memberstatus,
     "{base_url}/brandId/{brandId}/application/{applicationId}/member/{memberId}/status").
 
+send_im_mail_message(Environment)->
+  gen_server:call(?SERVER, {send_im_mail_message, Environment}).  
+
 send_im_mail_message(List, _Environment)->
   get_key_val(List, send_im_mail_message,
     "{base_url}/brandId/{brandId}/application/{applicationId}/member/{memberId}/status"). 
  
+community_brand_idMap()->	
+  gen_server:call(?SERVER, community_brand_idMap). 
+ 
 community_brand_idMap(List)->	
   get_key_val(List, community2brandId, []). 
-  
-get_key_val([],_)-> {error, empty_config};
-get_key_val(List, Key, Default)
-  proplists:get_value(Key, List, Default).
 
+load_config_db(Filename)->
+  {ok, ConfList} = load_config(Filename),
+  
 start_link(Args)-> 
   error_logger:info_msg(info,"Start linking ~p with Args ~p",[?MODULE, Args]),
   gen_server:start_link(Args).
@@ -121,29 +151,61 @@ init(Args)->
   [Conf_path, Conf_file, Use_mnesia_conf_store] = Args,
   Filename = lists:concat([Path,"/", File]),
   true = ec_file:exists(Filename),
-  ConfList = load_config(Filename),  
+  ConfList = load_config(Filename),
+  create_config_in_mnesia(Use_mnesia_conf_store),  
   {ok, #state{
   		filename = Filename,
+  		use_mnesia = Use_mnesia_conf_store,
   		config_list = ConfList
   }}.
 
-handle_call()->
+handle_call(environment, _From, State)->
+  
+
+  {ok, Reply, State}.
+
+
+handle_call({system_app_id, Environment}, _From, State)->
+  
+
+  {ok, Reply, State}.
+
+handle_call({system_brand_id, Environment}, _From, State)->
+  
+
+  {ok, Reply, State}.
+
+handle_call({system_member_id, Environment}, _From, State)->
+  
+
+  {ok, Reply, State}.
+
+
+handle_call({system_client_secret, Environment}, _From, State)->
+  
+
+  {ok, Reply, State}.
+
+
+handle_call({create_oauth_accesstoken, Environment}, _From, State)->
+  
+
+  {ok, Reply, State}.
+
+
+
+handle_call({profile_memberstatus, Environment}, _From, State)->
 
 
   {ok, Reply, State}.
 
-handle_call()->
+handle_call({send_im_mail_message, Environment}, _From, State)->
 
 
   {ok, Reply, State}.
 
-handle_call()->
-
-
-  {ok, Reply, State}.
-
-handle_call()->
-
+handle_call(community_brand_idMap, _From, State)->
+  
 
   {ok, Reply, State}.
 
@@ -167,6 +229,49 @@ code_change(_OldVsn, State, _Extra)->
   error_logger:info_msg("[~p] Upgraded.",
   		[?SERVER]),
   {ok, State}.
+
+create_config_in_mnesia(false) -> ok;
+create_config_in_mnesia(true) ->
+  Start = now(),
+  Ret = case mnesia:create_schema([node()]) of
+  	ok -> ok = app_util:start_app(mnesia),
+      	  error_logger:info_msg("Create mod_spark_rabbit_config table", []),
+
+  		 {atomic, ok} = mnesia:create_table(user_webpresence,
+  							[{ram_copies, [node()]},
+  							{type, set},
+  							{attributes, 
+  								record_info(fields, 
+  								spark_restc_conf_schema)}
+  							]
+  			);
+  	{error,{S, {already_exists, S}}} -> 
+        error_logger:warn_msg("Failure to create_schema: ~p", 
+        	  [{S, {already_exists, S}}]),
+        %ok = should_delete_schema(Schema),
+        ok = app_util:start_app(mnesia);
+    Else ->
+        error_logger:info_msg("Failure to create_schema: ~p", [Else]),
+        ok = app_util:start_app(mnesia)
+  end,
+  End = now(),
+  error_logger:info_msg("Create user_presence table ~p Start ~p End ~p", [?SERVER, Start, End]),
+  Ret.  
+
+now()->
+  Now = app_util:os_now(),
+  ec_date:nparse(format("Y-m-d\\TH:i:s.f", Now)).
+
+config_db_basic_populate(Key, Val) when is_atom(Key) ->
+  Fun = fun(Key, Val) ->
+  	 mnesia:dirty_write({spark_restc_conf_schema, Key, Val}),
+  end,
+  {atomic, ok} = mnesia:transaction(Fun),
+  {ok, {Key, updated}}.
+
+get_key_val([],_)-> {error, empty_config};
+get_key_val(List, Key, Default)
+  proplists:get_value(Key, List, Default).
 
 
 %%===================================================================

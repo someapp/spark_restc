@@ -1,22 +1,22 @@
 # spark_restc.yaml
 
-version: 3
+-version: 3
 
-rest_client:
+-rest_client:
   timeout_ms: 5000
   retry: 3
   method: random  
 
-environment: stgv3-v1
+-environment: stgv3-v1
   base_url: "http://api.stgv3.spark.net/v1"
 
-environment: stgv3-v2
+-environment: stgv3-v2
   base_url: "http://api.stgv3.spark.net/v2"
   app_id: "1054"
   brand_id: "90510"
   client_secret: "nZGVVfj8dfaBPKsx_dmcRXQml8o5N-iivf5lBkrAmLQ1"
  
-spark_rest_api:
+-spark_rest_api:
   create_oauth_accesstoken: 
   	"{base_url}/brandId/{brandId}/oauth2/accesstoken/application/{applicationId}"
   profile_miniProfile:	
@@ -27,33 +27,10 @@ spark_rest_api:
     "{base_url}/brandId/{brandId}/application/{applicationId}/member/{memberId}/status"}
 
 
-community2brandId:
+-community2brandId:
        [{spark,"1","1001"},
         {jdate,"3","1003"},
         {cupid,"10","1015"},
         {bbw,"23","90410"},
         {blacksingle,"24","90510"}]
 
-
-
-
-
-[
-  {spark_api_endpoint,"http://api.stgv3.spark.net/v2"},
-  {spark_app_id,"1054"},
-  {spark_brand_id,"90510"},
-  {spark_client_secret,
-        "nZGVVfj8dfaBPKsx_dmcRXQml8o5N-iivf5lBkrAmLQ1"},
-  {spark_create_oauth_accesstoken,
-        "/brandId/{brandId}/oauth2/accesstoken/application/{applicationId}"},
-  {auth_profile_miniProfile,
-       "/brandId/{brandId}/profile/attributeset/miniProfile/{targetMemberId}"},
-  {profile_memberstatus,
-        "/brandId/{brandId}/application/{applicationId}/member/{memberId}/status"},
-  {community2brandId,
-              [{spark,"1","1001"},
-               {jdate,"3","1003"},
-               {cupid,"10","1015"},
-               {bbw,"23","90410"},
-               {blacksingle,"24","90510"}]}
-].
