@@ -10,7 +10,7 @@
 
 -export([
 	 	load_config/1,
-	    load_config_db/1,
+	    load_config_db/2,
 	 	version/0,
 	 	spark_api_endpoint/1, 
 	 	spark_app_id/1,
@@ -66,10 +66,47 @@ load_config(Filename)->
   % yamerl_constr:file(Filename).
   {ok, ConfList} = file:consult(Filename),
   {ok, ConfList}.
+
+load_config_db(Environment, Filename)->
+  {ok, List} = load_config(Filename),
+  {ok, EnvConf} = environment(List, Environment),
+  populate(EnvConf),
+  {ok, 
+  {ok, } = 
+  {ok, } =
+  {ok, 
+  	{profile_memberstatus} = config_db_basic_populate(Table, Key, Val),
+  List = [profile_memberstatus],
+  populate(spark_restc_conf, List), 
+  {ok, IdMap} = community_brand_idMap(List),
+  populate
+
+populate(Table, List) ->
+  [List0 || {K,V} <- List],
+  lists:map(
+  	fun({Key,Val}) -> 
+        {ok, {Key, updated}} = 
+             config_db_basic_populate(Table, Key, Val)
+ 	end, List0).
+
+populate_environment_conf(List)->
+  populate(environment_conf, List).
+ 
+populate_restc_conf(List) ->
+  populate(spark_restc_conf, List).
+
+populate_id_map(List) ->
+  populate_table(id_map, List).
   
+populate_table(Name, IdMap) when is_atom(Name)->
+  error_logger:info_msg("Store idMap ~p into ets table", [IdMap]),
+  Tab = ets:new(Name, [set, named_table]),
+  lists:map(fun(L)-> true = ets:insert(Tab, L) end, IdMap);
+populate_table(_, _)->
+  {error, badarg}.   
+    
 config_version(List)->
   get_key_val(List, version, undefined).
-
 
 environment(Environment) when is_atom(Environment)->
   gen_server:call(?SERVER, environment).
@@ -140,8 +177,6 @@ community_brand_idMap()->
 community_brand_idMap(List)->	
   get_key_val(List, community2brandId, []). 
 
-load_config_db(Filename)->
-  {ok, ConfList} = load_config(Filename),
   
 start_link(Args)-> 
   error_logger:info_msg(info,"Start linking ~p with Args ~p",[?MODULE, Args]),
@@ -200,13 +235,13 @@ handle_call({profile_memberstatus, Environment}, _From, State)->
   {ok, Reply, State}.
 
 handle_call({send_im_mail_message, Environment}, _From, State)->
-
+  
 
   {ok, Reply, State}.
 
 handle_call(community_brand_idMap, _From, State)->
   
-
+  
   {ok, Reply, State}.
 
 
@@ -237,14 +272,22 @@ create_config_in_mnesia(true) ->
   	ok -> ok = app_util:start_app(mnesia),
       	  error_logger:info_msg("Create mod_spark_rabbit_config table", []),
 
-  		 {atomic, ok} = mnesia:create_table(user_webpresence,
+  		 {atomic, ok} = mnesia:create_table(environment_conf,
+  							[{ram_copies, [node()]},
+  							{type, set},
+  							{attributes, 
+  								record_info(fields, 
+  								environment_conf_schema)}
+  							]);
+
+  		 {atomic, ok} = mnesia:create_table(spark_restc_conf,
   							[{ram_copies, [node()]},
   							{type, set},
   							{attributes, 
   								record_info(fields, 
   								spark_restc_conf_schema)}
-  							]
-  			);
+  							]);
+	
   	{error,{S, {already_exists, S}}} -> 
         error_logger:warn_msg("Failure to create_schema: ~p", 
         	  [{S, {already_exists, S}}]),
@@ -255,25 +298,36 @@ create_config_in_mnesia(true) ->
         ok = app_util:start_app(mnesia)
   end,
   End = now(),
-  error_logger:info_msg("Create user_presence table ~p Start ~p End ~p", [?SERVER, Start, End]),
+  error_logger:info_msg("Create config table ~p Start ~p End ~p", [?SERVER, Start, End]),
   Ret.  
 
 now()->
   Now = app_util:os_now(),
   ec_date:nparse(format("Y-m-d\\TH:i:s.f", Now)).
 
-config_db_basic_populate(Key, Val) when is_atom(Key) ->
+config_db_basic_populate(Table, Key, Val)
+		 when is_atom(Table) ,
+			  is_atom(Key) ->
   Fun = fun(Key, Val) ->
-  	 mnesia:dirty_write({spark_restc_conf_schema, Key, Val}),
-  end,
+  	 		mnesia:dirty_write({Table, Key, Val}),
+  		end,
   {atomic, ok} = mnesia:transaction(Fun),
   {ok, {Key, updated}}.
-
+    
 get_key_val([],_)-> {error, empty_config};
 get_key_val(List, Key, Default)
-  proplists:get_value(Key, List, Default).
-
-
+  proplists:get_value(Key, List, Default);
+get_key_val(Table, onPredicate, Default) ->
+  Fun = 
+  fun()-> 
+  	  qlc:eval(X || X <- mnesia:table(Table), onPredicate)  		
+  end,
+  case (mnesia:transaction(Fun)) of
+  		{atomic, []} -> Default;
+  		{atomic, Val} -> Val;
+  		_ -> Default
+  end.
+  
 %%===================================================================
 %% EUnit tests
 %% ===================================================================
