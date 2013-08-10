@@ -33,9 +33,23 @@
 -endif.
 -include_lib("lager/include/lager.hrl").
 
+start_link(Args)->
+  start_link(default_handler, Args).
+
+start_link(HandlerModule, Args)->
+  gen_server:start_link({local, ?SERVER},
+  			 ?MODULE, [HandlerModule, Args], []).  
+  
+init(HandlerModule, Args)->
+  error_logger:info_msg("Starting handler ~p with options ~p",	
+  			  [HandlerModule, Args]),
+  case catch(HandlerModule:start(Args)) of
+  		ok -> {ok, HandlerModule};
+  		already_started -> {stop, {already_started, HandlerModule}};
+ 		Error -> {stop, Error} 
+  end. 
 
 
-	
 get_active_handlers()->
   gen_server:call(?SERVER, {get_active_handlers}).
 
@@ -89,6 +103,9 @@ terminate(Msg, Why)->
 code_change(OldVsn, State, _Extra)->
   NewState = State,  
   {ok, NewState}.
+
+
+
 
 -ifdef(TEST).
 
