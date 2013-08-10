@@ -20,6 +20,12 @@
 
 -define(EVENT_HANDLER, ?MODULE).
 
+-record(state, {
+	create_oauth_token = <<"">>,
+	id_map = []
+}).
+
+
 start(Args)->
   case lists:member(?MODULE, gen_event:which_handlers(?EVENT_HANDLER)) of
   	true -> 
@@ -33,12 +39,19 @@ stop()->
    
    
 init(Args)->
-    
-  
-  {ok, #state{url = Url}}.  
+  [Conf_path, Conf_file, Environment, UseMnesia] = Args 
+  BaseUrl = 
+  	spark_restc_config_server:spark_api_endpoint(Environment),
+  Create_Token_Url = spark_restc_config_server:spark_oauth_access_token(),
+  Create_OAuth_Token_Url = concate_url(BaseURl, ResourceUrl),  
+  {ok, 
+  	#state { 
+  			create_oauth_token = Create_OAuth_Token_Url
+  }}.  
 
 
-
+concate_url(BaseUrl, ResourceUrl)->
+  <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
 
 
 

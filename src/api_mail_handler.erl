@@ -21,7 +21,7 @@
 -define(EVENT_HANDLER, ?MODULE).
 
 -record(state, {
-	url = <<"">>,
+	send_im_mail_message = <<"">>,
 	id_map = []
 }).
 
@@ -39,10 +39,18 @@ stop()->
    
    
 init(Args)->
-    
+  [Conf_path, Conf_file, Environment, UseMnesia] = Args 
+  BaseUrl = 
+  	spark_restc_config_server:spark_api_endpoint(Environment),
+  SendIMMail_Url = spark_restc_config_server:send_im_mail_message(),
+  SendIMMail = concate_url(BaseURl, ResourceUrl),    
   
-  {ok, #state{url = Url}}.   
+  {ok, #state{send_im_mail_message  = SendIMMail}}.   
    
+
+concate_url(BaseUrl, ResourceUrl)->
+  <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
+
 
 handle_event({send_im_mail_message, Para, Payload}, State) ->
    

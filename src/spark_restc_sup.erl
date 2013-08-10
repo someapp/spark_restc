@@ -19,7 +19,8 @@ start_link(Args) ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, [Args]).
 
 start_link() -> 
-    Args = [<<"etc">>, <<"spark_restc.yaml">> , false], 
+    Args = [<<"etc">>, <<"spark_restc.config">> ,
+    	   stgv3,  false], 
     start_link(Args).
 
 %% ===================================================================
@@ -28,7 +29,7 @@ start_link() ->
 
 init(Args) ->
     Children = [
-   			?CHILD(spark_restc_config_server, worket, Args),
+   			?CHILD(spark_restc_config_server, worker, Args),
     		?CHILD(spark_restc_gen_rest_server, worker, Args)
     ],
     {ok, { {one_for_one, 5, 10}, Children} }.

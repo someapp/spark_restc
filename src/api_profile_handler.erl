@@ -21,7 +21,7 @@
 -define(EVENT_HANDLER, ?MODULE).
 
 -record(state, {
-	url = <<"">>,
+	mini_profile = <<"">>,
 	id_map = []
 }).
 
@@ -37,9 +37,20 @@ stop()->
    gen_event:delete_handler(?EVENT_HANDLER, ?MODULE, stop ). 
 
 init(Args)->
-    
+  [Conf_path, Conf_file, Environment, UseMnesia] = Args 
+  BaseUrl = 
+  	spark_restc_config_server:spark_api_endpoint(Environment),
+  MemberStatus_Url = spark_restc_config_server:profile_memberstatus(),
+  MemberStatus = concate_url(BaseURl, MemberStatus_Url), 
   
-  {ok, #state{url = Url}}.
+  MiniProfile_Url = spark_restc_config_server:auth_profile_miniProfile(),
+  MiniProfile = concate_url(BaseURl, MiniProfile_Url),  
+  {ok, #state{mini_profile  = MiniProfile, member_status = MemberStatus}}.
+
+
+concate_url(BaseUrl, ResourceUrl)->
+  <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
+
 
 
 handle_event({get_mini_profile, Param, Payload}, State)->
