@@ -23,7 +23,7 @@
 -type state() :: #state{}.
 -type message():: term().
 -type reason() :: tuple().
--type ok_or_error():: {ok, state() | {error, reason()}.
+-type ok_or_error():: {ok, state()} | {error, reason()}.
 
 -define(SERVER, ?MODULE).
 
