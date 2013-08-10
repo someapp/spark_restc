@@ -10,6 +10,7 @@
 }).
 
 -record(spark_restc_conf_schema,{
+  version  = undefined :: integer(),
   environment = undefined :: atom(),	
   create_oauth_accesstoken = <<"">> :: bitstring(),
   auth_profile_miniProfile = <<"">> :: bitstring(),

@@ -71,11 +71,11 @@ load_config_db(Environment, Filename)->
   {ok, List} = load_config(Filename),
   {ok, EnvConf} = environment(List, Environment),
   populate(EnvConf),
-  {ok, 
+  {ok, AppId} = system_app_id(List, Environment),
   {ok, } = 
   {ok, } =
   {ok, 
-  	{profile_memberstatus} = config_db_basic_populate(Table, Key, Val),
+  
   List = [profile_memberstatus],
   populate(spark_restc_conf, List), 
   {ok, IdMap} = community_brand_idMap(List),
@@ -153,21 +153,21 @@ create_oauth_accesstoken(List, _Environment) ->
   	
 profile_miniProfile(Environment)->
   gen_server:call(?SERVER, {profile_miniProfile, Environment}).  	 	
-profile_miniProfile(List, _Environment) ->	
+profile_miniProfile(List, Environment) ->	
   get_key_val(List, profile_miniProfile,
   	"{base_url}/brandId/{brandId}/profile/attributeset/miniProfile/{targetMemberId}").  	
 
 profile_memberstatus(Environment)->
   gen_server:call(?SERVER, {profile_memberstatus, Environment}).  
 
-profile_memberstatus(List, _Environment) ->
+profile_memberstatus(List, Environment) ->
   get_key_val(List, profile_memberstatus,
     "{base_url}/brandId/{brandId}/application/{applicationId}/member/{memberId}/status").
 
 send_im_mail_message(Environment)->
   gen_server:call(?SERVER, {send_im_mail_message, Environment}).  
 
-send_im_mail_message(List, _Environment)->
+send_im_mail_message(List, Environment)->
   get_key_val(List, send_im_mail_message,
     "{base_url}/brandId/{brandId}/application/{applicationId}/member/{memberId}/status"). 
  
@@ -195,54 +195,59 @@ init(Args)->
   }}.
 
 handle_call(environment, _From, State)->
-  
-
-  {ok, Reply, State}.
-
+  onPredicate = #environment_conf_schema.system_client_secret,
+  Reply =  handle_message(environment_conf, onPredicate), 
+  {ok, Reply, State};
 
 handle_call({system_app_id, Environment}, _From, State)->
-  
-
-  {ok, Reply, State}.
+  onPredicate = #environment_conf_schema.system_client_secret,
+  Reply =  handle_message(environment_conf, onPredicate), 
+  {ok, Reply, State};
 
 handle_call({system_brand_id, Environment}, _From, State)->
-  
-
-  {ok, Reply, State}.
+  onPredicate = #environment_conf_schema.system_client_secret,
+  Reply =  handle_message(environment_conf, onPredicate), 
+  {ok, Reply, State};
 
 handle_call({system_member_id, Environment}, _From, State)->
-  
-
-  {ok, Reply, State}.
-
+  onPredicate = #environment_conf_schema.system_client_secret,
+  Reply =  handle_message(environment_conf, onPredicate), 
+  {ok, Reply, State};
 
 handle_call({system_client_secret, Environment}, _From, State)->
-  
+  onPredicate = #environment_conf_schema.system_client_secret,
+  Reply =  handle_message(environment_conf, onPredicate), 
+  {ok, Reply, State};
 
-  {ok, Reply, State}.
 
+handle_call({profile_miniProfile, Environment}, _From, State)->
+  onPredicate = #spark_restc_conf_schema.auth_profile_miniProfile,
+  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  {ok, Reply, State};
 
 handle_call({create_oauth_accesstoken, Environment}, _From, State)->
-  
-
-  {ok, Reply, State}.
-
-
+  onPredicate = #spark_restc_conf_schema.create_oauth_accesstoken,
+  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  {ok, Reply, State};
 
 handle_call({profile_memberstatus, Environment}, _From, State)->
-
-
-  {ok, Reply, State}.
+  onPredicate = #spark_restc_conf_schema.profile_memberstatus,
+  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  {ok, Reply, State};
 
 handle_call({send_im_mail_message, Environment}, _From, State)->
-  
-
-  {ok, Reply, State}.
+  onPredicate = #spark_restc_conf_schema.send_im_mail_message,
+  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  {ok, Reply, State};
 
 handle_call(community_brand_idMap, _From, State)->
-  
-  
+  onPredicate = #spark_restc_conf_schema.community2brandId,
+  Reply =  handle_message(spark_restc_conf , onPredicate), 
   {ok, Reply, State}.
+
+handle_message(Table, onPredicate) ->
+  Default = undefined,
+  get_key_val(Table, onPredicate, Default).
 
 
 handle_cast(Unsupported, State)->
@@ -323,7 +328,7 @@ get_key_val(Table, onPredicate, Default) ->
   	  qlc:eval(X || X <- mnesia:table(Table), onPredicate)  		
   end,
   case (mnesia:transaction(Fun)) of
-  		{atomic, []} -> Default;
+  		{atomic, <<"">>} -> Default;
   		{atomic, Val} -> Val;
   		_ -> Default
   end.
