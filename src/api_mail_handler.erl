@@ -39,11 +39,11 @@ stop()->
    
    
 init(Args)->
-  [Conf_path, Conf_file, Environment, UseMnesia] = Args 
+  [Conf_path, Conf_file, Environment, UseMnesia] = Args, 
   BaseUrl = 
   	spark_restc_config_server:spark_api_endpoint(Environment),
   SendIMMail_Url = spark_restc_config_server:send_im_mail_message(),
-  SendIMMail = concate_url(BaseURl, ResourceUrl),    
+  SendIMMail = concate_url(BaseUrl, SendIMMail_Url),    
   
   {ok, #state{send_im_mail_message  = SendIMMail}}.   
    
@@ -52,13 +52,13 @@ concate_url(BaseUrl, ResourceUrl)->
   <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
 
 
-handle_event({send_im_mail_message, Para, Payload}, State) ->
+handle_event({send_im_mail_message, Params, Payload}, State) ->
    
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, send_im_mail_message, Params]),
   {ok, State};
   
-handle_event({send_im_mail_message, Para, Payload, hibernate}, State) ->
+handle_event({send_im_mail_message, Params, Payload, hibernate}, State) ->
    
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, send_im_mail_message, Params]),

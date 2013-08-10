@@ -41,11 +41,11 @@ stop()->
    
 
 init(Args)->
-   [Conf_path, Conf_file, Environment, UseMnesia] = Args 
+   [Conf_path, Conf_file, Environment, UseMnesia] = Args, 
   BaseUrl = 
   	spark_restc_config_server:spark_api_endpoint(Environment),
   Create_Token_Url = spark_restc_config_server:spark_oauth_access_token(),
-  Create_OAuth_Token_Url = concate_url(BaseURl, ResourceUrl),     
+  Create_OAuth_Token_Url = concate_url(BaseUrl, Create_Token_Url),     
   
   {ok, #state{url = Create_OAuth_Token_Url}}.
 

@@ -37,14 +37,14 @@ stop()->
    gen_event:delete_handler(?EVENT_HANDLER, ?MODULE, stop ). 
 
 init(Args)->
-  [Conf_path, Conf_file, Environment, UseMnesia] = Args 
+  [Conf_path, Conf_file, Environment, UseMnesia] = Args, 
   BaseUrl = 
   	spark_restc_config_server:spark_api_endpoint(Environment),
   MemberStatus_Url = spark_restc_config_server:profile_memberstatus(),
-  MemberStatus = concate_url(BaseURl, MemberStatus_Url), 
+  MemberStatus = concate_url(BaseUrl, MemberStatus_Url), 
   
   MiniProfile_Url = spark_restc_config_server:auth_profile_miniProfile(),
-  MiniProfile = concate_url(BaseURl, MiniProfile_Url),  
+  MiniProfile = concate_url(BaseUrl, MiniProfile_Url),  
   {ok, #state{mini_profile  = MiniProfile, member_status = MemberStatus}}.
 
 
@@ -53,7 +53,7 @@ concate_url(BaseUrl, ResourceUrl)->
 
 
 
-handle_event({get_mini_profile, Param, Payload}, State)->
+handle_event({get_mini_profile, Params, Payload}, State)->
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, get_mini_profile, Params]),
   		
@@ -61,7 +61,7 @@ handle_event({get_mini_profile, Param, Payload}, State)->
   		
   {ok, State};
    
-handle_event({get_mini_profile, Param, Payload, hibernate}, State)->
+handle_event({get_mini_profile, Params, Payload, hibernate}, State)->
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, get_mini_profile, Params]),
   {ok, State, hibernate}.

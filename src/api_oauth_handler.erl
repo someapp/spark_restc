@@ -39,11 +39,11 @@ stop()->
    
    
 init(Args)->
-  [Conf_path, Conf_file, Environment, UseMnesia] = Args 
+  [Conf_path, Conf_file, Environment, UseMnesia] = Args, 
   BaseUrl = 
   	spark_restc_config_server:spark_api_endpoint(Environment),
   Create_Token_Url = spark_restc_config_server:spark_oauth_access_token(),
-  Create_OAuth_Token_Url = concate_url(BaseURl, ResourceUrl),  
+  Create_OAuth_Token_Url = concate_url(BaseUrl, Create_Token_Url),  
   {ok, 
   	#state { 
   			create_oauth_token = Create_OAuth_Token_Url
@@ -55,12 +55,12 @@ concate_url(BaseUrl, ResourceUrl)->
 
 
 
-handle_event({create_access_token, Param, Payload}, State)->
+handle_event({create_access_token, Params, Payload}, State)->
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, create_access_token, Params]),
   {ok, State}.
 
-handle_event({create_access_token, Param, Payload, hibernate}, State)->
+handle_event({create_access_token, Params, Payload, hibernate}, State)->
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, create_access_token, Params]),
   {ok, State, hibernate}.
