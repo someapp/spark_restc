@@ -1,5 +1,13 @@
 -module(spark_restc_gen_rest_req).
 -behviour(gen_event).
+-compile([parse_transform, lager_transform]).
+
+-export([
+		post_request/2,
+		post_request/3,
+		verify_response/2.
+]).
+
 
 -export([init/1,
 		 handle_event/2,
@@ -17,16 +25,39 @@
 -type ok_or_error():: {ok, state() | {error, reason()}.
 
 
-
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 -include_lib("kernel/include/file.hrl").
 -endif.
+-include_lib("lager/include/lager.hrl").
+-define(EVENT_HANDLER, ?MODULE).
+
+handle_info({gen_event_EXIT, HandlerModule, Reason}, HandlerModule)->
+  {stop, {handler_died, HandlerModule, Reason}, HandlerModule}.
 
 
+handle_info(Message, HandlerModule)->
+  {noreply, HandlerModule}.
 
+terminate(stop, normal)->
+  error_logger:info_msg("[~p] terminated [~p] with reason ~p ",
+  			  [?EVENT_HANDLER,stop, Why]),
+  {ok, Why};
 
+terminate(stop, normalstopped)->
+  error_logger:info_msg("[~p] terminated [~p] with reason ~p ",
+  			  [?EVENT_HANDLER,stop, Why]),
+  {ok, Why};
 
+  
+terminate(Message, Why)->
+  error_logger:info_msg("[~p] terminated [~p] with reason ~p ",
+  			  [?EVENT_HANDLER,stop, Why]),
+  {ok, Why}.
+  
+code_change(_OldVsn, State, _Extra)->
+  {ok, State}.
+ 
 -ifdef(TEST)
 
 

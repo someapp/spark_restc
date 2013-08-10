@@ -1,5 +1,6 @@
 -module(spark_restc_gen_rest_server).
 -behaviour(gen_server).
+-compile([parse_transform, lager_transform]).
 
 -export([get_active_handlers/0,
 		 start_handler/1,
@@ -30,7 +31,7 @@
 -include_lib("eunit/include/eunit.hrl").
 -include_lib("kernel/include/file.hrl").
 -endif.
-
+-include_lib("lager/include/lager.hrl").
 
 
 
@@ -76,9 +77,13 @@ handle_info(Request, State)->
   {noreply, State}.
 
 termiante(stop, Why)->
+  error_logger:info_msg("[~p] terminated [~p] with reason ~p ",
+  		  [?SERVER,stop, Why]),
   {ok, Why};
   
 terminate(Msg, Why)->
+  error_logger:info_msg("[~p] terminated [~p] with reason ~p ",
+  		  [?SERVER,stop, Why]),
   {ok, Why}.
  
 code_change(OldVsn, State, _Extra)->
