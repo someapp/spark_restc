@@ -31,10 +31,6 @@
 
 
 
-handle_info({gen_event_EXIT, HandlerModule, Reason}, HandlerModule)->
-  error_logger:info_msg("[~p] died with reason ~p ",
-  			  [HandlerModule, Reason]),
-  {stop, {handler_died, HandlerModule, Reason}, HandlerModule};
 
 handle_info(Message, HandlerModule)->
   {noreply, HandlerModule}.

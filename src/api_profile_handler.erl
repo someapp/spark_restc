@@ -36,6 +36,7 @@ start(Args)->
 stop()->
    gen_event:delete_handler(?EVENT_HANDLER, ?MODULE, stop ). 
 
+  {ok, #state{url = Url}}.
 
 
 handle_event({get_mini_profile, Param, Payload}, State)->
@@ -57,8 +58,10 @@ handle_call(Request, State)->
   		[?EVENT_HANDLER, Request, unsupported]),
   {ok,{error, {Request, unsupported}}, State}.
 
-handle_info(Message, HandlerModule)->
-  {noreply, HandlerModule}.
+handle_info(Message, State)->
+  error_logger:info_msg("[~p] unknown message [~p]",
+  			  [?EVENT_HANDLER, Message]),
+  {noreply, State}.
 
 terminate(stop, normal)->
   error_logger:info_msg("[~p] terminated [~p] with reason ~p ",

@@ -40,13 +40,17 @@ stop()->
    
 
 init(Args)->
-  
+   
+
+  {ok, #state{url = Url}}.
 
 
 
 
-handle_info(Message, HandlerModule)->
-  {noreply, HandlerModule}.
+handle_info(Message, State)->
+  error_logger:info_msg("[~p] unknown message [~p]",
+  			  [?EVENT_HANDLER, Message]),
+  {noreply, State}.
 
 terminate(stop, normal)->
   error_logger:info_msg("[~p] terminated [~p] with reason ~p ",
