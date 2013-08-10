@@ -25,7 +25,16 @@
 -type reason() :: tuple().
 -type ok_or_error():: {ok, state()} | {error, reason()}.
 
+start(Args)->
+  case lists:member(?MODULE, gen_event:which_handlers(?EVENT_HANDLER)) of
+  	true -> 
+  		{?EVENT_HANDLER, already_started};
+    false ->
+        gen_event:add_handler(?EVENT_HANDLER, ?MODULE, Args)
+  end.
 
+stop()->
+   gen_event:delete_handler(?EVENT_HANDLER, ?MODULE, stop ). 
 
 
 

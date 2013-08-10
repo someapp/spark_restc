@@ -20,11 +20,30 @@
 
 -define(EVENT_HANDLER, ?MODULE).
 
+-record(state, {
+	url = <<"">>,
+	id_map = []
+}).
+
+start(Args)->
+  case lists:member(?MODULE, gen_event:which_handlers(?EVENT_HANDLER)) of
+  	true -> 
+  		{?EVENT_HANDLER, already_started};
+    false ->
+        gen_event:add_handler(?EVENT_HANDLER, ?MODULE, Args)
+  end.
+
+stop()->
+   gen_event:delete_handler(?EVENT_HANDLER, ?MODULE, stop ). 
+
 
 
 handle_event({get_mini_profile, Param, Payload}, State)->
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, get_mini_profile, Params]),
+  		
+  		
+  		
   {ok, State};
    
 handle_event({get_mini_profile, Param, Payload, hibernate}, State)->

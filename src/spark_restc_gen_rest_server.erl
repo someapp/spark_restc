@@ -2,7 +2,7 @@
 -behaviour(gen_server).
 -compile([parse_transform, lager_transform]).
 
--export([get_active_handlers/0,
+-export([
 		 add_handler/1,
 		 remove_handler/1,
 		 notify/2
@@ -34,47 +34,50 @@
 -include_lib("lager/include/lager.hrl").
 
 start_link(Args)->
-  start_link(default_handler, Args).
+  start_link([], Args).
 
-start_link(HandlerModule, Args)->
+start_link(HandlerModules, Args)->
   gen_server:start_link({local, ?SERVER},
-  			 ?MODULE, [HandlerModule, Args], []).  
+  			 ?MODULE, [HandlerModules, Args], []).  
   
-init(HandlerModule, Args)->
-  error_logger:info_msg("Starting handler ~p with options ~p",	
-  			  [HandlerModule, Args]),
+init(HandlerModules, Args)->
+  lists:foreach(fun(HandlerMod, Args) -> 
+    error_logger:info_msg("[~p] Starting handler ~p with options ~p",	
+  			  [?SERVER, HandlerModule, Args]),
+
+  	ok = init_it(HandlerMod, Args),
+  	error_logger:info_msg("[~p] Handler ~p started",
+  		 [?SERVER, HandlerMod])
+  end, HandlerModules).
+
+init_it(HandlerModule, Args)-> 
   case catch(HandlerModule:start(Args)) of
   		ok -> {ok, HandlerModule};
-  		already_started -> {stop, {already_started, HandlerModule}};
+  		{HandlerModule, already_started} 
+  			-> {stop, {already_started, HandlerModule}};
  		Error -> {stop, Error} 
   end. 
 
 
-get_active_handlers()->
-  gen_server:call(?SERVER, {get_active_handlers}).
+add_handler(ToEventMgr, HandlerName) when is_atom(HandlerName)->
+  gen_server:call(?SERVER, {add_handler , ToEventMgr, HandlerName}).
 
-add_handler(Name) when is_atom(Name)->
-  gen_server:call(?SERVER, {add_handler, Name}).
+remove_handler(FromEventMgr, HandlerName) when is_atom(HandlerName)->
+  gen_server:call(?SERVER, {remove_handler, FromEventMgr, HandlerName}).
 
-remove_handler(Name) when is_atom(Name)->
-  gen_server:call(?SERVER, {remove_handler, Name}).
+notify(EventMgr, {HandlerName, Message}) when is_atom(HandlerName)->
+  gen_server:call(?SERVER, {notify, EventMgr, {HandlerName, Message}}).
 
-notify(Name, Level) when is_atom(Name)->
-  gen_server:call(?SERVER, {notify, Name, Level}).
-
-handle_call({get_active_handlers}, From, State)->
-
-  {ok, Reply, State};
   
-handle_call({add_handler, Name}, From, State)->
+handle_call({add_handler , ToEventMgr, HandlerName}, From, State)->
 
   {ok, Reply, State};
 
-handle_call({remove_handler, Name}, From, State)->
+handle_call({remove_handler, FromEventMgr, HandlerName}, From, State)->
 
   {ok, Reply, State};
 
-handle_call({notify, Name, Level}, From, State)->
+handle_call({notify, EventMgr, {HandlerName, Message}}, From, State)->
 
   {ok, Reply, State};
 

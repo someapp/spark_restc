@@ -20,6 +20,19 @@
 
 -define(EVENT_HANDLER, ?MODULE).
 
+-record(state, {
+	url = <<"">>,
+	id_map = []
+}).
+
+
+
+
+
+init()->
+ 
+ 
+ {ok, State}.
 
 
 handle_event({send_im_mail_message, Para, Payload}, State) ->

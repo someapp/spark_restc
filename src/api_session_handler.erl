@@ -2,6 +2,8 @@
 -behaviour(gen_event).
 -compile([parse_transform, lager_transform]).
 
+-export([start/1, stop/0]).
+
 -export([
 		init/1,
 		handle_event/2,
@@ -21,6 +23,24 @@
 
 -define(EVENT_HANDLER, ?MODULE).
 
+-record(state, {
+	url = <<"">>
+}).
+
+start(Args)->
+  case lists:member(?MODULE, gen_event:which_handlers(?EVENT_HANDLER)) of
+  	true -> 
+  		{?EVENT_HANDLER, already_started};
+    false ->
+        gen_event:add_handler(?EVENT_HANDLER, ?MODULE, Args)
+  end.
+
+stop()->
+   gen_event:delete_handler(?EVENT_HANDLER, ?MODULE, stop ). 
+   
+
+init(Args)->
+  
 
 
 
