@@ -1,168 +1,392 @@
-DEBUG: Consult config file "/opt/spark_rabbitc/rebar.config"
-DEBUG: Rebar location: "/opt/spark_rabbitc/rebar"
-DEBUG: is_rel_dir(/opt/spark_rabbitc) -> false
-DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/src/restc.app.src"
+DEBUG: Consult config file "/opt/spark_restc/rebar.config"
+DEBUG: Rebar location: "/opt/spark_restc/rebar"
+DEBUG: is_rel_dir(/opt/spark_restc) -> false
+DEBUG: is_app_available, looking for App goldrush with Path "/opt/spark_restc/deps/goldrush"
+DEBUG: Consult config file "/opt/spark_restc/deps/goldrush/src/goldrush.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1.2"
+INFO:  Looking for goldrush-.* ; found goldrush-0.1.2 at /opt/spark_restc/deps/goldrush
+DEBUG: is_app_available, looking for App erlware_commons with Path "/opt/spark_restc/deps/erlware_commons"
+DEBUG: Consult config file "/opt/spark_restc/deps/erlware_commons/src/erlware_commons.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "semver"
+INFO:  Looking for erlware_commons-.* ; found erlware_commons-semver at /opt/spark_restc/deps/erlware_commons
+DEBUG: is_app_available, looking for App lager with Path "/opt/spark_restc/deps/lager"
+DEBUG: Consult config file "/opt/spark_restc/deps/lager/src/lager.app.src"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "2.0.0"
+INFO:  Looking for lager-.* ; found lager-2.0.0 at /opt/spark_restc/deps/lager
+DEBUG: is_app_available, looking for App parse_trans with Path "/opt/spark_restc/deps/parse_trans"
+DEBUG: Consult config file "/opt/spark_restc/deps/parse_trans/src/parse_trans.app.src"
+DEBUG: vcs_vsn: Primary vcs used for /opt/spark_restc/deps/parse_trans
+INFO:  sh info:
+	cwd: "/opt/spark_restc"
+	cmd: git describe --always --tags
+DEBUG: 	opts: [{cd,"/opt/spark_restc/deps/parse_trans"},{use_stdout,false}]
+INFO:  Looking for parse_trans-.* ; found parse_trans-2.6-2-g663ddeb at /opt/spark_restc/deps/parse_trans
+DEBUG: is_app_available, looking for App yamerl with Path "/opt/spark_restc/deps/yamerl"
+DEBUG: Consult config file "/opt/spark_restc/deps/yamerl/src/yamerl.app.src"
+INFO:  sh info:
+	cwd: "/opt/spark_restc"
+	cmd: awk '/^AC_INIT\(/ { ver=$0; sub(/AC_INIT\(\[[^]]+\], *\[/, "", ver); sub(/\].*/, "", ver); print ver; } { next; }' configure.ac
+DEBUG: 	opts: [{cd,"/opt/spark_restc/deps/yamerl"},{use_stdout,false}]
+INFO:  Looking for yamerl-.* ; found yamerl-0.3.0 at /opt/spark_restc/deps/yamerl
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_restc/deps/restc"
+DEBUG: Consult config file "/opt/spark_restc/deps/restc/src/restc.app.src"
 DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1.0"
-INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
-DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/restc",restc,".*",
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_restc/deps/restc
+DEBUG: Available deps: [{dep,"/opt/spark_restc/deps/goldrush",goldrush,".*",
+                             {git,"https://github.com/DeadZen/goldrush.git",
+                                  "master"},
+                             false},
+                        {dep,"/opt/spark_restc/deps/erlware_commons",
+                             erlware_commons,".*",
+                             {git,"https://github.com/erlware/erlware_commons.git",
+                                  "master"},
+                             false},
+                        {dep,"/opt/spark_restc/deps/lager",lager,".*",
+                             {git,"https://github.com/basho/lager.git",
+                                  "master"},
+                             false},
+                        {dep,"/opt/spark_restc/deps/parse_trans",parse_trans,
+                             ".*",
+                             {git,"git@github.com:uwiger/parse_trans.git",
+                                  {branch,"master"}},
+                             false},
+                        {dep,"/opt/spark_restc/deps/yamerl",yamerl,".*",
+                             {git,"https://github.com/yakaz/yamerl.git"},
+                             false},
+                        {dep,"/opt/spark_restc/deps/restc",restc,".*",
                              {git,"https://github.com/kivra/restclient.git",
                                   "master"},
                              false}]
 DEBUG: Missing deps  : []
-DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
-INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
-DEBUG: Adding /opt/spark_rabbitc/deps/restc/ebin to code path
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/restc with /opt/spark_rabbitc
-DEBUG: Associate sub_dir /opt/spark_rabbitc/rel with /opt/spark_rabbitc
-DEBUG: Predirs: ["/opt/spark_rabbitc/deps/restc","/opt/spark_rabbitc/rel"]
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/rebar.config"
-DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/src/jsx.app.src"
+DEBUG: is_app_available, looking for App goldrush with Path "/opt/spark_restc/deps/goldrush"
+INFO:  Looking for goldrush-.* ; found goldrush-0.1.2 at /opt/spark_restc/deps/goldrush
+DEBUG: Adding /opt/spark_restc/deps/goldrush/ebin to code path
+DEBUG: is_app_available, looking for App erlware_commons with Path "/opt/spark_restc/deps/erlware_commons"
+INFO:  Looking for erlware_commons-.* ; found erlware_commons-semver at /opt/spark_restc/deps/erlware_commons
+DEBUG: Adding /opt/spark_restc/deps/erlware_commons/ebin to code path
+DEBUG: is_app_available, looking for App lager with Path "/opt/spark_restc/deps/lager"
+INFO:  Looking for lager-.* ; found lager-2.0.0 at /opt/spark_restc/deps/lager
+DEBUG: Adding /opt/spark_restc/deps/lager/ebin to code path
+DEBUG: is_app_available, looking for App parse_trans with Path "/opt/spark_restc/deps/parse_trans"
+INFO:  Looking for parse_trans-.* ; found parse_trans-2.6-2-g663ddeb at /opt/spark_restc/deps/parse_trans
+DEBUG: Adding /opt/spark_restc/deps/parse_trans/ebin to code path
+DEBUG: is_app_available, looking for App yamerl with Path "/opt/spark_restc/deps/yamerl"
+INFO:  Looking for yamerl-.* ; found yamerl-0.3.0 at /opt/spark_restc/deps/yamerl
+DEBUG: Adding /opt/spark_restc/deps/yamerl/ebin to code path
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_restc/deps/restc"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_restc/deps/restc
+DEBUG: Adding /opt/spark_restc/deps/restc/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_restc/deps/goldrush with /opt/spark_restc
+DEBUG: Associate sub_dir /opt/spark_restc/deps/erlware_commons with /opt/spark_restc
+DEBUG: Associate sub_dir /opt/spark_restc/deps/lager with /opt/spark_restc
+DEBUG: Associate sub_dir /opt/spark_restc/deps/parse_trans with /opt/spark_restc
+DEBUG: Associate sub_dir /opt/spark_restc/deps/yamerl with /opt/spark_restc
+DEBUG: Associate sub_dir /opt/spark_restc/deps/restc with /opt/spark_restc
+DEBUG: Associate sub_dir /opt/spark_restc/rel with /opt/spark_restc
+DEBUG: Predirs: ["/opt/spark_restc/deps/goldrush",
+                 "/opt/spark_restc/deps/erlware_commons",
+                 "/opt/spark_restc/deps/lager",
+                 "/opt/spark_restc/deps/parse_trans",
+                 "/opt/spark_restc/deps/yamerl","/opt/spark_restc/deps/restc",
+                 "/opt/spark_restc/rel"]
+DEBUG: Consult config file "/opt/spark_restc/deps/goldrush/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> goldrush (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: erl_opts [debug_info,warn_export_all]
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/gr_context.erl
+INFO:  Skipped src/gre.erl
+INFO:  Skipped src/glc_ops.erl
+INFO:  Skipped src/glc_lib.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/glc.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/glc_code.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+DEBUG: Evaluating config script "/opt/spark_restc/deps/erlware_commons/rebar.config.script"
+DEBUG: Consult config file "/opt/spark_restc/deps/erlware_commons/rebar.config"
+DEBUG: is_app_available, looking for App rebar_vsn_plugin with Path "/opt/spark_restc/deps/rebar_vsn_plugin"
+DEBUG: Consult config file "/opt/spark_restc/deps/rebar_vsn_plugin/src/rebar_vsn_plugin.app.src"
+DEBUG: vcs_vsn: Primary vcs used for /opt/spark_restc/deps/rebar_vsn_plugin
+INFO:  sh info:
+	cwd: "/opt/spark_restc/deps/erlware_commons"
+	cmd: git describe --always --tags
+DEBUG: 	opts: [{cd,"/opt/spark_restc/deps/rebar_vsn_plugin"},
+               {use_stdout,false}]
+INFO:  Looking for rebar_vsn_plugin-.* ; found rebar_vsn_plugin-v0.0.4-2-g0797866 at /opt/spark_restc/deps/rebar_vsn_plugin
+DEBUG: Available deps: [{dep,"/opt/spark_restc/deps/rebar_vsn_plugin",
+                             rebar_vsn_plugin,".*",
+                             {git,"https://github.com/erlware/rebar_vsn_plugin.git",
+                                  {branch,"master"}},
+                             false}]
+DEBUG: Missing deps  : []
+DEBUG: is_app_available, looking for App rebar_vsn_plugin with Path "/opt/spark_restc/deps/rebar_vsn_plugin"
+INFO:  Looking for rebar_vsn_plugin-.* ; found rebar_vsn_plugin-v0.0.4-2-g0797866 at /opt/spark_restc/deps/rebar_vsn_plugin
+DEBUG: Adding /opt/spark_restc/deps/rebar_vsn_plugin/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_restc/deps/rebar_vsn_plugin with /opt/spark_restc/deps/erlware_commons
+DEBUG: Predirs: ["/opt/spark_restc/deps/rebar_vsn_plugin"]
+DEBUG: Consult config file "/opt/spark_restc/deps/rebar_vsn_plugin/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> rebar_vsn_plugin (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: erl_opts [debug_info,debug_info,warnings_as_errors,inline]
+DEBUG: Failed to inspect ec_dictionary: enoent
+INFO:  Skipped ec_dictionary
+DEBUG: Starting 3 compile worker(s)
+DEBUG: Worker exited cleanly
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/rebar_vsn_plugin.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+==> rebar_vsn_plugin (post_compile)
+DEBUG: Postdirs: []
+==> erlware_commons (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: is_app_available, looking for App rebar_vsn_plugin with Path "/opt/spark_restc/deps/rebar_vsn_plugin"
+INFO:  Looking for rebar_vsn_plugin-.* ; found rebar_vsn_plugin-v0.0.4-2-g0797866 at /opt/spark_restc/deps/rebar_vsn_plugin
+DEBUG: erl_opts [debug_info,debug_info,warnings_as_errors]
+DEBUG: Failed to inspect ec_dictionary: enoent
+INFO:  Skipped ec_dictionary
+INFO:  Skipped src/ec_dictionary.erl
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/ec_lists.erl
+INFO:  Skipped src/ec_compile.erl
+INFO:  Skipped src/ec_file.erl
+INFO:  Skipped src/ec_assoc_list.erl
+INFO:  Skipped src/ec_plists.erl
+INFO:  Skipped src/ec_date.erl
+INFO:  Skipped src/ec_orddict.erl
+INFO:  Skipped src/ec_semver_parser.erl
+INFO:  Skipped src/ec_gb_trees.erl
+INFO:  Skipped src/ec_semver.erl
+INFO:  Skipped src/ec_talk.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/ec_dict.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/ec_rbdict.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+==> erlware_commons (post_compile)
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_restc/deps/lager/rebar.config"
+DEBUG: is_app_available, looking for App goldrush with Path "/opt/spark_restc/deps/goldrush"
+INFO:  Looking for goldrush-.* ; found goldrush-0.1.2 at /opt/spark_restc/deps/goldrush
+DEBUG: Available deps: [{dep,"/opt/spark_restc/deps/goldrush",goldrush,".*",
+                             {git,"git://github.com/DeadZen/goldrush.git",
+                                  {tag,"879c69874a"}},
+                             false}]
+DEBUG: Missing deps  : []
+DEBUG: is_app_available, looking for App goldrush with Path "/opt/spark_restc/deps/goldrush"
+INFO:  Looking for goldrush-.* ; found goldrush-0.1.2 at /opt/spark_restc/deps/goldrush
+DEBUG: Adding /opt/spark_restc/deps/goldrush/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_restc/deps/goldrush with /opt/spark_restc/deps/lager
+DEBUG: Predirs: ["/opt/spark_restc/deps/goldrush"]
+DEBUG: Skipping /opt/spark_restc/deps/goldrush; already processed!
+==> lager (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: is_app_available, looking for App goldrush with Path "/opt/spark_restc/deps/goldrush"
+INFO:  Looking for goldrush-.* ; found goldrush-0.1.2 at /opt/spark_restc/deps/goldrush
+DEBUG: erl_opts [debug_info,debug_info]
+INFO:  Skipped src/lager_util.erl
+INFO:  Skipped src/lager_transform.erl
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/lager_handler_watcher.erl
+INFO:  Skipped src/lager_format.erl
+INFO:  Skipped src/lager_file_backend.erl
+INFO:  Skipped src/lager_app.erl
+INFO:  Skipped src/lager_default_formatter.erl
+INFO:  Skipped src/lager_stdlib.erl
+INFO:  Skipped src/lager_console_backend.erl
+INFO:  Skipped src/lager_trunc_io.erl
+INFO:  Skipped src/lager.erl
+INFO:  Skipped src/lager_msg.erl
+INFO:  Skipped src/lager_backend_throttle.erl
+INFO:  Skipped src/lager_sup.erl
+INFO:  Skipped src/lager_crash_log.erl
+INFO:  Skipped src/lager_handler_watcher_sup.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/lager_config.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/error_logger_lager_h.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_restc/deps/parse_trans/rebar.config"
+DEBUG: is_app_available, looking for App edown with Path "/opt/spark_restc/deps/edown"
+DEBUG: Consult config file "/opt/spark_restc/deps/edown/src/edown.app.src"
+DEBUG: vcs_vsn: Primary vcs used for /opt/spark_restc/deps/edown
+INFO:  sh info:
+	cwd: "/opt/spark_restc/deps/parse_trans"
+	cmd: git describe --always --tags
+DEBUG: 	opts: [{cd,"/opt/spark_restc/deps/edown"},{use_stdout,false}]
+INFO:  Looking for edown-.* ; found edown-0.3.1-14-g1f6954c at /opt/spark_restc/deps/edown
+DEBUG: Available deps: [{dep,"/opt/spark_restc/deps/edown",edown,".*",
+                             {git,"git://github.com/esl/edown.git","HEAD"},
+                             false}]
+DEBUG: Missing deps  : []
+DEBUG: is_app_available, looking for App edown with Path "/opt/spark_restc/deps/edown"
+INFO:  Looking for edown-.* ; found edown-0.3.1-14-g1f6954c at /opt/spark_restc/deps/edown
+DEBUG: Adding /opt/spark_restc/deps/edown/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_restc/deps/edown with /opt/spark_restc/deps/parse_trans
+DEBUG: Predirs: ["/opt/spark_restc/deps/edown"]
+DEBUG: Consult config file "/opt/spark_restc/deps/edown/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> edown (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: erl_opts [debug_info,debug_info]
+DEBUG: Failed to inspect src/parse_trans.erl: enoent
+INFO:  Skipped src/parse_trans.erl
+DEBUG: Failed to inspect src/parse_trans_pp.erl: enoent
+INFO:  Skipped src/parse_trans_pp.erl
+DEBUG: Failed to inspect src/parse_trans_codegen.erl: enoent
+INFO:  Skipped src/parse_trans_codegen.erl
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/edown_lib.erl
+INFO:  Skipped src/edown_make.erl
+INFO:  Skipped src/edown_xmerl.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/edown_doclet.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/edown_layout.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+==> parse_trans (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: is_app_available, looking for App edown with Path "/opt/spark_restc/deps/edown"
+INFO:  Looking for edown-.* ; found edown-0.3.1-14-g1f6954c at /opt/spark_restc/deps/edown
+DEBUG: erl_opts [debug_info,debug_info]
+INFO:  Skipped src/parse_trans.erl
+INFO:  Skipped src/parse_trans_pp.erl
+INFO:  Skipped src/parse_trans_codegen.erl
+INFO:  Skipped src/exprecs.erl
+INFO:  Skipped src/ct_expand.erl
+DEBUG: Starting 3 compile worker(s)
+DEBUG: Worker exited cleanly
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/parse_trans_mod.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_restc/deps/yamerl/rebar.config"
+DEBUG: Available deps: []
+DEBUG: Missing deps  : []
+DEBUG: Predirs: []
+==> yamerl (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
+DEBUG: Min OTP version unconfigured
+DEBUG: erl_opts [debug_info,
+                 {i,["include"]},
+                 {src_dirs,[src]},
+                 warn_format,warn_export_all,warn_export_vars,
+                 warn_obselete_guard,warn_unused_import,warn_bif_clash,
+                 warn_missing_spec,warn_utyped_record,
+                 {parse_transform},
+                 {debug_info}]
+DEBUG: Starting 3 compile worker(s)
+INFO:  Skipped src/yamerl_sup.erl
+INFO:  Skipped src/yamerl_node_null.erl
+INFO:  Skipped src/yamerl_node_bool_json.erl
+INFO:  Skipped src/yamerl_node_str.erl
+INFO:  Skipped src/yamerl_errors.erl
+INFO:  Skipped src/yamerl_node_null_json.erl
+INFO:  Skipped src/yamerl_node_bool.erl
+INFO:  Skipped src/yamerl_node_seq.erl
+INFO:  Skipped src/yamerl_node_timestamp.erl
+INFO:  Skipped src/yamerl_parser.erl
+INFO:  Skipped src/yamerl_node_str_json.erl
+INFO:  Skipped src/yamerl_node_size.erl
+INFO:  Skipped src/yamerl_node_map.erl
+INFO:  Skipped src/yamerl_node_erlang_fun.erl
+INFO:  Skipped src/yamerl_node_int_json.erl
+INFO:  Skipped src/yamerl_constr.erl
+INFO:  Skipped src/yamerl_node_bool_ext.erl
+INFO:  Skipped src/yamerl_node_ipaddr.erl
+INFO:  Skipped src/yamerl.erl
+INFO:  Skipped src/yamerl_node_float_json.erl
+INFO:  Skipped src/yamerl_node_float.erl
+INFO:  Skipped src/yamerl_yamler_compat.erl
+INFO:  Skipped src/yamerl_node_int.erl
+INFO:  Skipped src/yamerl_node_erlang_atom.erl
+INFO:  Skipped src/yamerl_node_int_ext.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/yamerl_app.erl
+DEBUG: Worker exited cleanly
+INFO:  Skipped src/yamerl_node_float_ext.erl
+DEBUG: Worker exited cleanly
+INFO:  No app_vars_file defined.
+DEBUG: Postdirs: []
+DEBUG: Consult config file "/opt/spark_restc/deps/restc/rebar.config"
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_restc/deps/jsx"
+DEBUG: Consult config file "/opt/spark_restc/deps/jsx/src/jsx.app.src"
 DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.3.1"
-INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
-DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/src/mochiweb_util.app.src"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_restc/deps/jsx
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_restc/deps/mochiweb_util"
+DEBUG: Consult config file "/opt/spark_restc/deps/mochiweb_util/src/mochiweb_util.app.src"
 DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1"
-INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
-DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/src/erlsom.app.src"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_restc/deps/mochiweb_util
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_restc/deps/erlsom"
+DEBUG: Consult config file "/opt/spark_restc/deps/erlsom/src/erlsom.app.src"
 DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.2.1"
-INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
-DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/jsx",jsx,".",
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_restc/deps/erlsom
+DEBUG: Available deps: [{dep,"/opt/spark_restc/deps/jsx",jsx,".",
                              {git,"git://github.com/talentdeficit/jsx.git",
                                   {tag,"v1.3.1"}},
                              false},
-                        {dep,"/opt/spark_rabbitc/deps/mochiweb_util",
+                        {dep,"/opt/spark_restc/deps/mochiweb_util",
                              mochiweb_util,".",
                              {git,"git://github.com/bipthelin/mochiweb_util.git",
                                   "master"},
                              false},
-                        {dep,"/opt/spark_rabbitc/deps/erlsom",erlsom,".",
+                        {dep,"/opt/spark_restc/deps/erlsom",erlsom,".",
                              {git,"git://github.com/willemdj/erlsom.git",
                                   {tag,"a267a5d40"}},
                              false}]
 DEBUG: Missing deps  : []
-DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
-INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
-DEBUG: Adding /opt/spark_rabbitc/deps/jsx/ebin to code path
-DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
-INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
-DEBUG: Adding /opt/spark_rabbitc/deps/mochiweb_util/ebin to code path
-DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
-INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
-DEBUG: Adding /opt/spark_rabbitc/deps/erlsom/ebin to code path
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/jsx with /opt/spark_rabbitc/deps/restc
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/mochiweb_util with /opt/spark_rabbitc/deps/restc
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/erlsom with /opt/spark_rabbitc/deps/restc
-DEBUG: Predirs: ["/opt/spark_rabbitc/deps/jsx",
-                 "/opt/spark_rabbitc/deps/mochiweb_util",
-                 "/opt/spark_rabbitc/deps/erlsom"]
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/rebar.config"
-DEBUG: Available deps: []
-DEBUG: Missing deps  : []
-DEBUG: Predirs: []
-==> jsx (get-deps)
-DEBUG: Postdirs: []
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/rebar.config"
-DEBUG: Available deps: []
-DEBUG: Missing deps  : []
-DEBUG: Predirs: []
-==> mochiweb_util (get-deps)
-DEBUG: Postdirs: []
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/rebar.config"
-DEBUG: Available deps: []
-DEBUG: Missing deps  : []
-DEBUG: Predirs: []
-==> erlsom (get-deps)
-DEBUG: Postdirs: []
-==> restc (get-deps)
-DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
-INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
-DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
-INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
-DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
-INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
-DEBUG: Postdirs: []
-DEBUG: Consult config file "/opt/spark_rabbitc/rel/rebar.config"
-DEBUG: is_rel_dir(/opt/spark_rabbitc/rel) -> {true,
-                                              "/opt/spark_rabbitc/rel/reltool.config"}
-DEBUG: Available deps: []
-DEBUG: Missing deps  : []
-DEBUG: Predirs: []
-==> rel (get-deps)
-DEBUG: Postdirs: []
-==> spark_rabbitc (get-deps)
-DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
-INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
-DEBUG: Postdirs: []
-DEBUG: Consult config file "/opt/spark_rabbitc/rebar.config"
-DEBUG: Rebar location: "/opt/spark_rabbitc/rebar"
-DEBUG: is_rel_dir(/opt/spark_rabbitc) -> false
-DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/src/restc.app.src"
-DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1.0"
-INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
-DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/restc",restc,".*",
-                             {git,"https://github.com/kivra/restclient.git",
-                                  "master"},
-                             false}]
-DEBUG: Missing deps  : []
-DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
-INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
-DEBUG: Adding /opt/spark_rabbitc/deps/restc/ebin to code path
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/restc with /opt/spark_rabbitc
-DEBUG: Associate sub_dir /opt/spark_rabbitc/rel with /opt/spark_rabbitc
-DEBUG: Predirs: ["/opt/spark_rabbitc/deps/restc","/opt/spark_rabbitc/rel"]
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/restc/rebar.config"
-DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/src/jsx.app.src"
-DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.3.1"
-INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
-DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/src/mochiweb_util.app.src"
-DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.1"
-INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
-DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/src/erlsom.app.src"
-DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "1.2.1"
-INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
-DEBUG: Available deps: [{dep,"/opt/spark_rabbitc/deps/jsx",jsx,".",
-                             {git,"git://github.com/talentdeficit/jsx.git",
-                                  {tag,"v1.3.1"}},
-                             false},
-                        {dep,"/opt/spark_rabbitc/deps/mochiweb_util",
-                             mochiweb_util,".",
-                             {git,"git://github.com/bipthelin/mochiweb_util.git",
-                                  "master"},
-                             false},
-                        {dep,"/opt/spark_rabbitc/deps/erlsom",erlsom,".",
-                             {git,"git://github.com/willemdj/erlsom.git",
-                                  {tag,"a267a5d40"}},
-                             false}]
-DEBUG: Missing deps  : []
-DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
-INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
-DEBUG: Adding /opt/spark_rabbitc/deps/jsx/ebin to code path
-DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
-INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
-DEBUG: Adding /opt/spark_rabbitc/deps/mochiweb_util/ebin to code path
-DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
-INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
-DEBUG: Adding /opt/spark_rabbitc/deps/erlsom/ebin to code path
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/jsx with /opt/spark_rabbitc/deps/restc
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/mochiweb_util with /opt/spark_rabbitc/deps/restc
-DEBUG: Associate sub_dir /opt/spark_rabbitc/deps/erlsom with /opt/spark_rabbitc/deps/restc
-DEBUG: Predirs: ["/opt/spark_rabbitc/deps/jsx",
-                 "/opt/spark_rabbitc/deps/mochiweb_util",
-                 "/opt/spark_rabbitc/deps/erlsom"]
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/jsx/rebar.config"
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_restc/deps/jsx"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_restc/deps/jsx
+DEBUG: Adding /opt/spark_restc/deps/jsx/ebin to code path
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_restc/deps/mochiweb_util"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_restc/deps/mochiweb_util
+DEBUG: Adding /opt/spark_restc/deps/mochiweb_util/ebin to code path
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_restc/deps/erlsom"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_restc/deps/erlsom
+DEBUG: Adding /opt/spark_restc/deps/erlsom/ebin to code path
+DEBUG: Associate sub_dir /opt/spark_restc/deps/jsx with /opt/spark_restc/deps/restc
+DEBUG: Associate sub_dir /opt/spark_restc/deps/mochiweb_util with /opt/spark_restc/deps/restc
+DEBUG: Associate sub_dir /opt/spark_restc/deps/erlsom with /opt/spark_restc/deps/restc
+DEBUG: Predirs: ["/opt/spark_restc/deps/jsx",
+                 "/opt/spark_restc/deps/mochiweb_util",
+                 "/opt/spark_restc/deps/erlsom"]
+DEBUG: Consult config file "/opt/spark_restc/deps/jsx/rebar.config"
 DEBUG: Available deps: []
 DEBUG: Missing deps  : []
 DEBUG: Predirs: []
 ==> jsx (compile)
-DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
-DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
 DEBUG: Min OTP version unconfigured
 DEBUG: erl_opts [debug_info,
                  {i,"src"},
@@ -185,16 +409,16 @@ INFO:  Skipped src/jsx_decoder.erl
 DEBUG: Worker exited cleanly
 INFO:  No app_vars_file defined.
 DEBUG: Postdirs: []
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/mochiweb_util/rebar.config"
+DEBUG: Consult config file "/opt/spark_restc/deps/mochiweb_util/rebar.config"
 DEBUG: Available deps: []
 DEBUG: Missing deps  : []
 DEBUG: Predirs: []
 ==> mochiweb_util (compile)
-DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
-DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
 DEBUG: Min OTP version unconfigured
 DEBUG: erl_opts [debug_info,
-                 {i,["../..","../include"]},
+                 {i,["include"]},
                  {src_dirs,[src]},
                  warn_format,warn_export_all,warn_export_vars,
                  warn_obselete_guard,warn_unused_import,warn_bif_clash,
@@ -210,18 +434,18 @@ INFO:  Skipped src/mochiweb_util.erl
 DEBUG: Worker exited cleanly
 INFO:  No app_vars_file defined.
 DEBUG: Postdirs: []
-DEBUG: Consult config file "/opt/spark_rabbitc/deps/erlsom/rebar.config"
+DEBUG: Consult config file "/opt/spark_restc/deps/erlsom/rebar.config"
 DEBUG: Available deps: []
 DEBUG: Missing deps  : []
 DEBUG: Predirs: []
 ==> erlsom (compile)
-DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
-DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
 DEBUG: Min OTP version unconfigured
 DEBUG: erl_opts [debug_info,debug_info]
 DEBUG: Starting 3 compile worker(s)
-INFO:  Skipped src/erlsom_add.erl
 INFO:  Skipped src/ucs.erl
+INFO:  Skipped src/erlsom_add.erl
 INFO:  Skipped src/erlsom_sax.erl
 INFO:  Skipped src/erlsom_ucs.erl
 INFO:  Skipped src/erlsom_writeHrl.erl
@@ -237,26 +461,26 @@ INFO:  Skipped src/erlsom_parse.erl
 INFO:  Skipped src/erlsom_sax_list.erl
 INFO:  Skipped src/erlsom_lib.erl
 INFO:  Skipped src/erlsom_write.erl
+INFO:  Skipped src/erlsom_sax_latin9.erl
 INFO:  Skipped src/erlsom_parseXsd.erl
 DEBUG: Worker exited cleanly
-INFO:  Skipped src/erlsom_sax_latin9.erl
 DEBUG: Worker exited cleanly
 INFO:  Skipped src/erlsom_pass2.erl
 DEBUG: Worker exited cleanly
 INFO:  No app_vars_file defined.
 DEBUG: Postdirs: []
 ==> restc (compile)
-DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
-DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
 DEBUG: Min OTP version unconfigured
-DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_rabbitc/deps/jsx"
-INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_rabbitc/deps/jsx
-DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_rabbitc/deps/mochiweb_util"
-INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_rabbitc/deps/mochiweb_util
-DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_rabbitc/deps/erlsom"
-INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_rabbitc/deps/erlsom
+DEBUG: is_app_available, looking for App jsx with Path "/opt/spark_restc/deps/jsx"
+INFO:  Looking for jsx-. ; found jsx-1.3.1 at /opt/spark_restc/deps/jsx
+DEBUG: is_app_available, looking for App mochiweb_util with Path "/opt/spark_restc/deps/mochiweb_util"
+INFO:  Looking for mochiweb_util-. ; found mochiweb_util-0.1 at /opt/spark_restc/deps/mochiweb_util
+DEBUG: is_app_available, looking for App erlsom with Path "/opt/spark_restc/deps/erlsom"
+INFO:  Looking for erlsom-. ; found erlsom-1.2.1 at /opt/spark_restc/deps/erlsom
 DEBUG: erl_opts [debug_info,
-                 {i,["../..","../include"]},
+                 {i,["include"]},
                  {src_dirs,[src]},
                  warn_format,warn_export_all,warn_export_vars,
                  warn_obselete_guard,warn_unused_import,warn_bif_clash,
@@ -270,38 +494,31 @@ INFO:  Skipped src/restc.erl
 DEBUG: Worker exited cleanly
 INFO:  No app_vars_file defined.
 DEBUG: Postdirs: []
-DEBUG: Consult config file "/opt/spark_rabbitc/rel/rebar.config"
-DEBUG: is_rel_dir(/opt/spark_rabbitc/rel) -> {true,
-                                              "/opt/spark_rabbitc/rel/reltool.config"}
+DEBUG: Consult config file "/opt/spark_restc/rel/rebar.config"
+DEBUG: is_rel_dir(/opt/spark_restc/rel) -> false
 DEBUG: Available deps: []
 DEBUG: Missing deps  : []
 DEBUG: Predirs: []
 ==> rel (compile)
-DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
-DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
 DEBUG: Min OTP version unconfigured
 DEBUG: Postdirs: []
-==> spark_rabbitc (compile)
-INFO:  sh info:
-	cwd: "/opt/spark_rabbitc"
-	cmd: ./download_dep.sh
-DEBUG: 	opts: [{env,[{"REBAR_DEPS_DIR","/opt/spark_rabbitc/deps"},
-                     {"ERL_LIBS","/opt/spark_rabbitc/deps"}]},
-               {abort_on_error,"Command [compile] failed!\n"}]
-Download header files
-Downloading ejabberd.hrl and jlib.hrl
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0  2391    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  2391  100  2391    0     0   9242      0 --:--:-- --:--:-- --:--:-- 2334k
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0 20084    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 20084  100 20084    0     0  64484      0 --:--:-- --:--:-- --:--:-- 1961k
-Move header files to include dir
-`ejabberd.hrl' -> `./include/ejabberd.hrl'
-`jlib.hrl' -> `./include/jlib.hrl'
-DEBUG: Matched required ERTS version: 5.9.3.1 -> .*
-DEBUG: Matched required OTP release: R15B03 -> R14|R15|R16
+==> spark_restc (compile)
+DEBUG: Matched required ERTS version: 5.8.5 -> .*
+DEBUG: Matched required OTP release: R14B04 -> R14|R15|R16
 DEBUG: Min OTP version unconfigured
-DEBUG: is_app_available, looking for App restc with Path "/opt/spark_rabbitc/deps/restc"
-INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_rabbitc/deps/restc
+DEBUG: is_app_available, looking for App goldrush with Path "/opt/spark_restc/deps/goldrush"
+INFO:  Looking for goldrush-.* ; found goldrush-0.1.2 at /opt/spark_restc/deps/goldrush
+DEBUG: is_app_available, looking for App erlware_commons with Path "/opt/spark_restc/deps/erlware_commons"
+DEBUG: vcs_vsn: Unknown VCS atom in vsn field: "0.11.0"
+INFO:  Looking for erlware_commons-.* ; found erlware_commons-0.11.0 at /opt/spark_restc/deps/erlware_commons
+DEBUG: is_app_available, looking for App lager with Path "/opt/spark_restc/deps/lager"
+INFO:  Looking for lager-.* ; found lager-2.0.0 at /opt/spark_restc/deps/lager
+DEBUG: is_app_available, looking for App parse_trans with Path "/opt/spark_restc/deps/parse_trans"
+INFO:  Looking for parse_trans-.* ; found parse_trans-2.6-2-g663ddeb at /opt/spark_restc/deps/parse_trans
+DEBUG: is_app_available, looking for App yamerl with Path "/opt/spark_restc/deps/yamerl"
+INFO:  Looking for yamerl-.* ; found yamerl-0.3.0 at /opt/spark_restc/deps/yamerl
+DEBUG: is_app_available, looking for App restc with Path "/opt/spark_restc/deps/restc"
+INFO:  Looking for restc-.* ; found restc-0.1.0 at /opt/spark_restc/deps/restc
 DEBUG: Postdirs: []

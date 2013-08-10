@@ -1,7 +1,7 @@
 {application, spark_restc_srv,
  [
   {description, "Spark RestAPI consumer, as a service"},
-  {vsn, "${PACKAGE_VERSION}"},
+  {vsn, "0.10"},
   {registered, [spark_restapi_consumer]},
   {applications, [
                   kernel,
@@ -29,8 +29,10 @@
   ]},
   {mod, { spark_restc_app, []}},
   {env, [
+          {environment, stgv3},
+	  {version, 3},
  	  {conf_path, <<"etc">>},
-  	  {conf_file, <<spark_restc.yaml>>},
+  	  {conf_file, <<"spark_restc.config">>},
   	  {use_mnesia_conf_store, false}
   ]}
  ]}.
