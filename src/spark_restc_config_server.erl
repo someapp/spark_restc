@@ -52,6 +52,9 @@
 -define(SERVER, ?MODULE).
 
 -record(state,{
+    version,
+    environment,
+    base_url,
     use_mnesia = false,
 	filename = [] :: file:name(),
 	config_list = [] ::list()
@@ -71,15 +74,10 @@ load_config_db(Environment, Filename)->
   {ok, List} = load_config(Filename),
   {ok, EnvConf} = environment(List, Environment),
   populate(EnvConf),
-  {ok, AppId} = system_app_id(List, Environment),
-  {ok, } = 
-  {ok, } =
-  {ok, 
-  
-  List = [profile_memberstatus],
-  populate(spark_restc_conf, List), 
+  {ok, Urls} = endpoints(List),
+  populate(spark_restc_conf, Urls), 
   {ok, IdMap} = community_brand_idMap(List),
-  populate
+  populate_id_map(IdMap).
 
 populate(Table, List) ->
   [List0 || {K,V} <- List],
@@ -115,6 +113,9 @@ environment([], _) -> [];
 environment(List, Environment)-> when is_atom(Environment)->
   get_key_val(List, Environment, []);
 environment(_,_) -> {error, badarg}.
+
+endpoints(List) ->
+  get_key_val(List,endpoints ,[]).
 
 system_app_id(Environment)->
   gen_server:call(?SERVER, {system_app_id, Environment}).
@@ -183,13 +184,18 @@ start_link(Args)->
   gen_server:start_link(Args).
 
 init(Args)->
-  [Conf_path, Conf_file, Use_mnesia_conf_store] = Args,
+  [Conf_path, Conf_file, Use_mnesia_conf_store, Environment] = Args,
   Filename = lists:concat([Path,"/", File]),
   true = ec_file:exists(Filename),
   ConfList = load_config(Filename),
+  Vsn = get_key_val(ConfList, version, 0),
+  Env = get_key_val(ConfList, Environment, undefined),
+  
   create_config_in_mnesia(Use_mnesia_conf_store),  
   {ok, #state{
-  		filename = Filename,
+    	version = Vsn,
+    	environment = Env,
+    	filename = Filename,
   		use_mnesia = Use_mnesia_conf_store,
   		config_list = ConfList
   }}.
@@ -247,8 +253,10 @@ handle_call(community_brand_idMap, _From, State)->
 
 handle_message(Table, onPredicate) ->
   Default = undefined,
-  get_key_val(Table, onPredicate, Default).
-
+  Ret = get_key_val(Table, onPredicate, Default),
+  error_logger:info_msg("[~p], Config ~p has value ~p",
+  						[Table, onPredicate, Ret]),
+  Ret.
 
 handle_cast(Unsupported, State)->
   error_logger:info_msg("[~p] Unsupported message: ~p ",
@@ -311,7 +319,7 @@ now()->
   ec_date:nparse(format("Y-m-d\\TH:i:s.f", Now)).
 
 config_db_basic_populate(Table, Key, Val)
-		 when is_atom(Table) ,
+		 when is_atom(Table),
 			  is_atom(Key) ->
   Fun = fun(Key, Val) ->
   	 		mnesia:dirty_write({Table, Key, Val}),
@@ -340,118 +348,5 @@ get_key_val(Table, onPredicate, Default) ->
 -define(DEFAULTVAL, "DefaultTestVal").
 -define(TESTAPPENV, ?APP_ENV).
 
-spark_restc_test_() ->
-    { setup,
-      fun setup/0,
-      fun cleanup/1,
-      [
-        fun load_config_test_case/0,
-	fun spark_api_endpoint_test_case/0,
-	fun spark_oauth_access_token_test_case/0,
-	fun spark_communityid_brandid_map_test_case/0,
-	fun profile_memberstatus_test_case/0,
-	fun auth_profile_miniProfile_test_case/0,
-	fun rest_client_timeout_in_sec_test_case/0,
-	fun rest_call_retry_attempt_test_case/0,
-	fun rabbitmq_endpoint_test_case/0,
-	fun rabbitmq_client_timeout_in_sec_test_case/0,
-	fun rabbitmq_client_retry_attempt_in_test_case/0,
-	fun non_existent_var_test_case/0,
-	fun get_config_value_env_noValue_test_case/0,
-	fun get_config_value_env_defaultValue_test_case/0,
-	fun get_config_value_env_undefinedVal_test_case/0,
-	fun get_config_required_value_ok_test_cases/0,
-	fun get_config_required_value_fail_test_cases/0
-      ]
-    }.
-
-load_config_test_case()->
-  ?assertEqual("http://api.stgv3.spark.net/v2", spark_api_endpoint()),
-  ?assertEqual("1054",spark_app_id()).
-
-
-
-spark_api_endpoint_test_case()->
-    application:set_env(?TESTAPPENV, spark_api_endpoint, "http://www.test.endpoint"),
-    ?assertMatch("http://www.test.endpoint", spark_api_endpoint()).
-
-spark_oauth_access_token_test_case()->
-    application:set_env(?TESTAPPENV, spark_create_oauth_accesstoken, "oauthTESTTOKEN"),
-    ?assertMatch("oauthTESTTOKEN", spark_oauth_access_token()).	
-
-spark_communityid_brandid_map_test_case()->
-    TestData= [{spark, "1", "1001"}],
-    application:set_env(?TESTAPPENV, community2brandId, TestData),
-    ?assertEqual( TestData, spark_communityid_brandid_map()).
-
-profile_memberstatus_test_case()->
-    TestData = "/brandId/{brandId}/application/{applicationId}/member/{memberId}/status",
-    application:set_env(?TESTAPPENV, community2brandId, TestData),
-    ?assertEqual(TestData, profile_memberstatus()).
-
-auth_profile_miniProfile_test_case()->
-    application:set_env(?TESTAPPENV, auth_profile_miniProfile, "miniProfle/{appId}/{brandid}/"),
-    ?assertEqual("miniProfle/{appId}/{brandid}/", auth_profile_miniProfile()).
-	
-rabbitmq_endpoint_test_case() ->
-    application:set_env(?TESTAPPENV, rabbitmq_endpoint, "rabbitMQTEST"),
-    ?assertMatch("rabbitMQTEST",rabbitmq_endpoint()).
-
-rest_client_timeout_in_sec_test_case() ->
-    application:set_env(?TESTAPPENV, rest_client_timeout_in_sec, 12),
-    ?assertEqual(12, rest_client_timeout_in_sec()).
-	
-rest_call_retry_attempt_test_case() ->
-    application:set_env(?TESTAPPENV, rest_call_retry_attempt, 15),
-    ?assertEqual(15, rest_call_retry_attempt()).
-	
-rabbitmq_client_timeout_in_sec_test_case() ->
-    application:set_env(?TESTAPPENV, rabbitmq_client_timeout_in_sec,10),
-    ?assertEqual(10, rabbitmq_client_timeout_in_sec()).
- 
-rabbitmq_client_retry_attempt_in_test_case() ->
-    ok = application:unset_env(?TESTAPPENV,rabbitmq_client_retry_attempt),
-    ok = application:set_env(?TESTAPPENV,rabbitmq_client_retry_attempt, 19),
-    ?assertEqual(19, rabbitmq_client_retry_attempt()).
-	
-non_existent_var_test_case() ->
-    ?assertEqual(undefined, get_config_value_env(bogus)).
-
-
-get_config_value_env_defaultValue_test_case()->
-    application:set_env(?TESTAPPENV, test_var_with_value, ?DEFAULTVAL),
-    ?assertMatch(?DEFAULTVAL,get_config_value_env(test_var_with_value, ?DEFAULTVAL) ).
-
-get_config_value_env_noValue_test_case()->
-    application:set_env(?TESTAPPENV,test_var_no_value, ?DEFAULTVAL),
-    ?assertMatch(?DEFAULTVAL, get_config_value_env(test_var_no_value, ?DEFAULTVAL)).
-
-
-get_config_value_env_undefinedVal_test_case() ->
-
-    ?assertMatch(undefined, get_config_value_env(config_var_missing)).
-
-get_config_required_value_ok_test_cases() ->
-    application:set_env(?TESTAPPENV,required_key, required_val),
-    Ret1 = get_config_value_env(required_key, required), 
-    ?assertEqual(required_val, Ret1).
-
-get_config_required_value_fail_test_cases()->
-
-    application:unset_env(?TESTAPPENV,required_key_nok),
-    Ret = 
-	try 
-	     get_config_value_env(required_key_nok, required)
-        catch
-	     exit:Reason -> {'EXIT', Reason};
-	     R -> R
-        end,
-    ?assertMatch({'EXIT',{error, {required_key_nok, not_found}}}, Ret).
-
-setup() ->   
-    load_config().
-
-cleanup(_Pid) ->
-    unload_config().
     
 -endif.

@@ -15,6 +15,7 @@ start(_StartType, _StartArgs) ->
 	ok = ensure_dependency_started(),
     Conf_path0 = 
     		application:get_env(?APP, conf_path,undefined),
+    Env =   application:get_env(?APP, environment,undefined),
   	Conf_file = 
   			application:get_env(?APP, conf_file,undefined),
   	Use_mnesia_conf_store = 
@@ -29,7 +30,7 @@ start(_StartType, _StartArgs) ->
 	error_logger:info_msg("[~p] Using mnesia as config store? ~p",
 			[?APP, Use_mnesia_conf_store]),
     spark_restc_sup:start_link(
-    		[Conf_path, Conf_file, Use_mnesia_conf_store]).
+    		[Conf_path, Conf_file, Use_mnesia_conf_store, Env]).
 
 stop(_State) ->
     ok.
