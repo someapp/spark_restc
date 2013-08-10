@@ -36,7 +36,7 @@ stop(_State) ->
     ok.
 
 ensure_dependency_started()->
-  ?INFO_MSG("[~p] Starting depedenecies", [?APP]),
+  error_logger:info_msg("[~p] Starting depedenecies", [?APP]),
   Apps = [syntax_tools, 
 		  compiler, 
 		  crypto,
@@ -46,8 +46,15 @@ ensure_dependency_started()->
 		  lager, 
 		  inets, 
 		  restc],
-  error_logger("[~p] Going to start apps ~p",
+  error_logger:info_msg("[~p] Going to start apps ~p",
   	  [?APP, lists:flatten(Apps)]),
   app_util:start_apps(Apps),
-  error_logger("[~p] Started depedenecies ~p",
+  error_logger:info_msg("[~p] Started depedenecies ~p",
       [?APP, lists:flatten(Apps)]).
+      
+real_dir_path(Conf_path0)->
+  {ok, Cwd} = file:get_cwd(),
+  FileFullPath = filename:join([Cwd, Conf_path0]),
+  true = file_lib:is_regular(FileFullPath),
+  FileFullPath.
+  
