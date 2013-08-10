@@ -40,8 +40,8 @@ stop()->
    
 
 init(Args)->
-   
-
+    
+  
   {ok, #state{url = Url}}.
 
 
