@@ -3,9 +3,9 @@
 -compile([parse_transform, lager_transform]).
 
 -export([get_active_handlers/0,
-		 start_handler/1,
-		 kill_handler/1,
-		 sniff_handler/2
+		 add_handler/1,
+		 remove_handler/1,
+		 notify/2
 ]).
 
 -export([start/1,
@@ -39,28 +39,28 @@
 get_active_handlers()->
   gen_server:call(?SERVER, {get_active_handlers}).
 
-start_handler(Name) when is_atom(Name)->
-  gen_server:call(?SERVER, {start_handler, Name}).
+add_handler(Name) when is_atom(Name)->
+  gen_server:call(?SERVER, {add_handler, Name}).
 
-kill_handler(Name) when is_atom(Name)->
-  gen_server:call(?SERVER, {kill_handler, Name}).
+remove_handler(Name) when is_atom(Name)->
+  gen_server:call(?SERVER, {remove_handler, Name}).
 
-sniff_handler(Name, Level) when is_atom(Name)->
-  gen_server:call(?SERVER, {sniff_handler, Name, Level}).
+notify(Name, Level) when is_atom(Name)->
+  gen_server:call(?SERVER, {notify, Name, Level}).
 
 handle_call({get_active_handlers}, From, State)->
 
   {ok, Reply, State};
   
-handle_call({start_handler, Name}, From, State)->
+handle_call({add_handler, Name}, From, State)->
 
   {ok, Reply, State};
 
-handle_call({kill_handler, Name}, From, State)->
+handle_call({remove_handler, Name}, From, State)->
 
   {ok, Reply, State};
 
-handle_call({sniff_handler, Name, Level}, From, State)->
+handle_call({notify, Name, Level}, From, State)->
 
   {ok, Reply, State};
 
