@@ -7,7 +7,7 @@
 		handle_event/2,
 		handle_call/2,
 		handle_info/2,
-		code_change/2,
+		code_change/3,
 		terminate/2
 
 ]).
@@ -19,6 +19,27 @@
 -include_lib("lager/include/lager.hrl").
 
 -define(EVENT_HANDLER, ?MODULE).
+
+start(Args)->
+  case lists:member(?MODULE, gen_event:which_handlers(?EVENT_HANDLER)) of
+  	true -> 
+  		{?EVENT_HANDLER, already_started};
+    false ->
+        gen_event:add_handler(?EVENT_HANDLER, ?MODULE, Args)
+  end.
+
+stop()->
+   gen_event:delete_handler(?EVENT_HANDLER, ?MODULE, stop ). 
+   
+   
+init(Args)->
+    
+  
+  {ok, #state{url = Url}}.  
+
+
+
+
 
 
 handle_event({create_access_token, Param, Payload}, State)->
