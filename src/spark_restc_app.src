@@ -20,6 +20,8 @@
   {modules, [
   	spark_restc_app,
   	spark_restc_sup,
+  	spark_restc_config_server,
+  	spark_restc_config,
   	spark_restc_gen_rest_req,
   	spark_restc_gen_rest_resp,
   	spark_restc_gen_handler,
