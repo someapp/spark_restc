@@ -213,76 +213,161 @@ init(Args)->
   }}.
 
 handle_call(environment, _From, State)->
-  onPredicate = 
-    #environment_conf_schema.system_client_secret,
-  Reply =  handle_message(environment_conf, onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[Env || 
+  				#environment_conf_schema{
+  					environment = Env} 
+  				<- mnesia:table(environment_conf)]))
+  end, 
+  Reply =  handle_message(Qlc),
   {ok, Reply, State};
 
 handle_call({system_app_id, Environment}, _From, State)->
-  onPredicate = 
-    #environment_conf_schema.system_client_secret,
-  Reply =  handle_message(environment_conf, onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[AppId || 
+  				#environment_conf_schema{
+  					environment = Env, 
+  					system_app_id =AppId} 
+  					<- mnesia:table(environment_conf),
+  		Env =:= Environment]))
+  end, 
+  Reply =  handle_message(Qlc), 
   {ok, Reply, State};
 
 handle_call({system_brand_id, Environment}, _From, State)->
-  onPredicate = 
-    #environment_conf_schema.system_client_secret,
-  Reply =  handle_message(environment_conf, onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[BrandId || 
+  				#environment_conf_schema{
+  					environment = Env, 
+  					system_brand_id = BrandId} 
+  					<- mnesia:table(environment_conf),
+  		Env =:= Environment]))
+  end,  
+    
+  Reply =  handle_message(Qlc), 
   {ok, Reply, State};
 
 handle_call({system_member_id, Environment}, _From, State)->
-  onPredicate = 
-    #environment_conf_schema.system_client_secret,
-  Reply =  handle_message(environment_conf, onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[MemberId || 
+  				#environment_conf_schema{
+  					environment = Env, 
+  					system_member_id = MemberId} 
+  					<- mnesia:table(environment_conf),
+  		Env =:= Environment]))
+  end,  
+    
+  Reply =  handle_message(Qlc), 
   {ok, Reply, State};
 
 handle_call({system_client_secret, Environment}, _From, State)->
-  onPredicate = 
-    #environment_conf_schema.system_client_secret,
-  Reply =  handle_message(environment_conf, onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[Secret || 
+  				#environment_conf_schema{
+  					environment = Env, 
+  					system_client_secret = Secret} 
+  					<- mnesia:table(environment_conf),
+  		Env =:= Environment]))
+  end,  
+    
+  Reply =  handle_message(Qlc),  
   {ok, Reply, State};
 
-handle_call(version,_From, State)->
-  onPredicate =   
-    #spark_restc_conf_schema.version,
-  Reply =  handle_message(spark_restc_conf , onPredicate), 
+handle_call({version, Environment},_From, State)->
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[Vsn || 
+  				#spark_restc_conf_schema{
+  					version = Vsn, 
+  					environment = Env} 
+  					<- mnesia:table(spark_restc_conf),
+  		Env =:= Environment]))
+  end,  
+    
+  Reply =  handle_message(Qlc),  
   {ok, Reply, State};
     
 handle_call({profile_miniProfile, Environment}, _From, State)->
-  onPredicate = 
-    #spark_restc_conf_schema.auth_profile_miniProfile,
-  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[MiniProfile || 
+  				#spark_restc_conf_schema{
+  					auth_profile_miniProfile
+  						 = MiniProfile
+  					} 
+  					<- mnesia:table(spark_restc_conf)]
+  		))
+  end,  
+    
+  Reply =  handle_message(Qlc), 
   {ok, Reply, State};
 
 handle_call({create_oauth_accesstoken, Environment}, _From, State)->
-  onPredicate = 
-    #spark_restc_conf_schema.create_oauth_accesstoken,
-  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[AccessToken || 
+  				#spark_restc_conf_schema{
+  					create_oauth_accesstoken 
+  						= AccessToken} 
+  					<- mnesia:table(spark_restc_conf)]
+  		))
+  end,  
+    
+  Reply =  handle_message(Qlc),  
   {ok, Reply, State};
 
 handle_call({profile_memberstatus, Environment}, _From, State)->
-  onPredicate = 
-    #spark_restc_conf_schema.profile_memberstatus,
-  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[MemberStatus || 
+  				#spark_restc_conf_schema{
+  					profile_memberstatus 
+  					   = MemberStatus} 
+  					<- mnesia:table(spark_restc_conf)]
+  		))
+  end,  
+    
+  Reply =  handle_message(Qlc), 
   {ok, Reply, State};
 
 handle_call({send_im_mail_message, Environment}, _From, State)->
-  onPredicate = 
-    #spark_restc_conf_schema.send_im_mail_message,
-  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[ImMail || 
+  				#spark_restc_conf_schema{
+  					send_im_mail_message = ImMail 
+  					} 
+  					<- mnesia:table(spark_restc_conf)]
+  		))
+  end,  
+    
+  Reply =  handle_message(Qlc), 
   {ok, Reply, State};
 
 handle_call(community_brand_idMap, _From, State)->
-  onPredicate = 
-    #spark_restc_conf_schema.community2brandId,
-  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  Qlc = fun() -> 
+  		qlc:eval(qlc:q(
+  			[IdMap || 
+  				#spark_restc_conf_schema{
+  					community2brandId = IdMap 
+  					} 
+  					<- mnesia:table(spark_restc_conf)]
+  		))
+  end,  
+    
+  Reply =  handle_message(Qlc), 
   {ok, Reply, State}.
 
-handle_message(Table, onPredicate) ->
+handle_message(Qlc) ->
   Default = undefined,
-  Ret = get_key_val(Table, onPredicate, Default),
-  error_logger:info_msg("[~p], Config ~p has value ~p",
-  						[Table, onPredicate, Ret]),
+  Ret = get_key_val(Qlc, Default),
+  error_logger:info_msg("[~p], Value ~p",
+  						[?SERVER,  Ret]),
   Ret.
 
 handle_cast(Unsupported, State)->
@@ -354,19 +439,15 @@ config_db_basic_populate(Table, Key, Val)
   {atomic, ok} = mnesia:transaction(Fun),
   {ok, {Key, updated}}.
     
-get_key_val([],_)-> {error, empty_config}.
-get_key_val(List, Key, Default) when is_list(List) ->
-  proplists:get_value(Key, List, Default);
-get_key_val(Table, onPredicate, Default) when is_atom(Table) ->
-  Fun = 
-  fun()-> 
-  	  qlc:eval([X || X <- mnesia:table(Table), onPredicate])  		
-  end,
-  case (mnesia:transaction(Fun)) of
+get_key_val([],_)-> {error, empty_config};
+get_key_val(QLC, Default) ->
+  case (mnesia:activity(QLC)) of
   		{atomic, <<"">>} -> Default;
   		{atomic, Val} -> Val;
   		_ -> Default
   end.
+get_key_val(List, Key, Default) when is_list(List) ->
+  proplists:get_value(Key, List, Default).
   
 %%===================================================================
 %% EUnit tests

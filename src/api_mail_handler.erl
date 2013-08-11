@@ -52,7 +52,7 @@ concate_url(BaseUrl, ResourceUrl)->
   <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
 
 handle_event(heartbeat, State)->
- Heatbeat=ping,
+ Heartbeat=ping,
  {ok, Heartbeat, State};
 
 handle_event({send_im_mail_message, Params, Payload}, State) ->

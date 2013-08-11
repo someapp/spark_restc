@@ -54,13 +54,13 @@ concate_url(BaseUrl, ResourceUrl)->
   <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
 
 handle_event(heartbeat, State)->
- Heatbeat=ping,
+ Heartbeat=ping,
  {ok, Heartbeat, State};
 
 handle_event({create_access_token, Params, Payload}, State)->
   error_logger:info_msg("[~p] Request ~p ~p",
   		[?EVENT_HANDLER, create_access_token, Params]),
-  {ok, State}.
+  {ok, State};
 
 handle_event({create_access_token, Params, Payload, hibernate}, State)->
   error_logger:info_msg("[~p] Request ~p ~p",

@@ -54,9 +54,13 @@ concate_url(BaseUrl, ResourceUrl)->
   <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
 
 handle_event(heartbeat, State)->
- Heatbeat=ping,
+ Heartbeat=ping,
  {ok, Heartbeat, State}.
 
+handle_call(Request, State)->
+  error_logger:info_msg("[~p] Request ~p ~p",
+  		[?EVENT_HANDLER, Request, unsupported]),
+  {ok,{error, {Request, unsupported}}, State}.
 
 handle_info(Message, State)->
   error_logger:info_msg("[~p] unknown message [~p]",

@@ -1,4 +1,4 @@
-{application, spark_restc_srv,
+{application, spark_restc,
  [
   {description, "Spark RestAPI consumer, as a service"},
   {vsn, "0.10"},

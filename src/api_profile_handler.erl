@@ -22,6 +22,7 @@
 
 -record(state, {
 	mini_profile = <<"">>,
+	member_status = <<"">>,
 	id_map = []
 }).
 
@@ -52,7 +53,7 @@ concate_url(BaseUrl, ResourceUrl)->
   <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
 
 handle_event(heartbeat, State)->
- Heatbeat=ping,
+ Heartbeat=ping,
  {ok, Heartbeat, State};
 
 

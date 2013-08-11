@@ -3,6 +3,7 @@
 -type config_entry() :: {atom(), term()}.
 
 -record(environment_conf_schema, {
+  environment = <<"">> ::bitstring(),
   system_app_id = <<"">> ::bitstring(), 
   system_brand_id = <<"">> :: bitstring(),
   system_member_id = <<"">> ::bitstring(),
