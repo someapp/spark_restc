@@ -3,8 +3,8 @@
 -compile([parse_transform, lager_transform]).
 
 -export([
-		 add_handler/2,
-		 remove_handler/2,
+		 add_handler/3,
+		 delete_handler/2,
 		 notify/2
 ]).
 
@@ -46,8 +46,12 @@ start(Args) -> start_link(Args).
 init(Arg0)->
   [HandlerModules, Args] = Arg0,
   [Conf_path, Conf_file, Environment, UseMnesia] = Args, 
-  spark_restc_config_server:load_config_db(Environment, Conf_file),  
-
+  Ret = case UseMnesia of
+  	 true -> 
+  	 	spark_restc_config_server:load_config_db(Environment, Conf_file);
+  	 false -> 
+  	 	spark_restc_config:load_config(Conf_path, Con_file)  
+  end,
   lists:foreach(fun(HandlerMod, Args) -> 
     error_logger:info_msg("[~p] Starting handler ~p with options ~p",	
   			  [?SERVER, HandlerMod, Args]),
@@ -76,28 +80,29 @@ notify(EventMgr, {HandlerName, Message}) when is_atom(HandlerName)->
   gen_server:call(?SERVER, {notify, EventMgr, {HandlerName, Message}}).
 
   
-handle_call({add_handler , ToEventMgr, HandlerName}, From, State)->
-
+handle_call({add_handler , ToEventMgr, HandlerName, Args}, From, State)->
+  Reply = init_it(HandlerModule, Args),
   {ok, Reply, State};
 
-handle_call({remove_handler, FromEventMgr, HandlerName}, From, State)->
-
+handle_call({delete_handler, FromEventMgr, HandlerName}, From, State)->
+  Reply = gen_event:delete_handler(),
   {ok, Reply, State};
 
 handle_call({notify, EventMgr, {HandlerName, Message}}, From, State)->
-
+  Reply = gen_event:notify(EventMgr, {}),
   {ok, Reply, State};
 
 
 handle_call(Request, From, State)->
-
+  error_logger:warn_msg("[~p] Message ~p ~p",[?SERVER, Request, not_supported]),
   {ok, Reply, State}.
 
 handle_cast(Request, State)->
+  error_logger:warn_msg("[~p] Message ~p ~p",[?SERVER, Request, not_supported]),
   {noreply, State}.
 
 handle_info(Request, State)->
-
+  error_logger:warn_msg("[~p] Message ~p ~p",[?SERVER, Request, not_supported]),
   {noreply, State}.
 
 terminate(stop, Why) ->
