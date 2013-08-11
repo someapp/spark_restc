@@ -33,7 +33,7 @@ start(Args)->
   	true -> 
   		{?EVENT_HANDLER, already_started};
     false ->
-        gen_event:add_handler(?EVENT_HANDLER, ?MODULE, Args)
+        gen_event:add_sup_handler(?EVENT_HANDLER, ?MODULE, Args)
   end.
 
 stop()->
@@ -52,6 +52,10 @@ init(Args)->
 
 concate_url(BaseUrl, ResourceUrl)->
   <<BaseUrl/binary, <<"/">>/binary, ResourceUrl/binary >>.
+
+handle_event(heartbeat, State)->
+ Heatbeat=ping,
+ {ok, Heartbeat, State}.
 
 
 handle_info(Message, State)->

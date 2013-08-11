@@ -3,7 +3,7 @@
 -compile([parse_transform, lager_transform]).
 
 -export([
-		 add_handler/3,
+		 add_handler/2,
 		 delete_handler/2,
 		 notify/2
 ]).
@@ -70,26 +70,26 @@ init_it(HandlerModule, Args)->
   end. 
 
 
-add_handler(ToEventMgr, HandlerName) when is_atom(HandlerName)->
-  gen_server:call(?SERVER, {add_handler , ToEventMgr, HandlerName}).
+add_handler(RegisterName, HandlerMod, Args) when is_atom(HandlerMod)->
+  gen_server:call(?SERVER, {add_handler , RegisterName, HandlerMod, Args}).
 
-remove_handler(FromEventMgr, HandlerName) when is_atom(HandlerName)->
-  gen_server:call(?SERVER, {remove_handler, FromEventMgr, HandlerName}).
+remove_handler(RegisterName, HandlerMod) when is_atom(HandlerMod)->
+  gen_server:call(?SERVER, {remove_handler, RegisterName, HandlerMod}).
 
-notify(EventMgr, {HandlerName, Message}) when is_atom(HandlerName)->
-  gen_server:call(?SERVER, {notify, EventMgr, {HandlerName, Message}}).
+notify(EventMgr, {HandlerMod, Message}) when is_atom(HandlerMod)->
+  gen_server:call(?SERVER, {notify, EventMgr, {HandlerMod, Message}}).
 
   
-handle_call({add_handler , ToEventMgr, HandlerName, Args}, From, State)->
-  Reply = init_it(HandlerModule, Args),
+handle_call({add_handler , HandlerMod, Args}, From, State)->
+  Reply = init_it(HandlerMod, Args),
   {ok, Reply, State};
 
-handle_call({delete_handler, FromEventMgr, HandlerName}, From, State)->
-  Reply = gen_event:delete_handler(),
+handle_call({delete_handler, RegisteredName, HandlerMod}, From, State)->
+  Reply = gen_event:delete_handler(RegisteredName, HandlerMod, stop),
   {ok, Reply, State};
 
-handle_call({notify, EventMgr, {HandlerName, Message}}, From, State)->
-  Reply = gen_event:notify(EventMgr, {}),
+handle_call({notify, RegisteredName, Message}, From, State)->
+  Reply = gen_event:notify(RegisteredName, heartbeat),
   {ok, Reply, State};
 
 
