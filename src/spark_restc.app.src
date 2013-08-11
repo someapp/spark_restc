@@ -24,7 +24,9 @@
   	spark_restc_config,
 	api_session_handler,
 	api_profile_handler,
-	api_mail_handler
+	api_mail_handler,
+	spark_restc_rest_request,
+	spark_restc_parse_response
   ]},
   {mod, { spark_restc_app, []}},
   {env, [
