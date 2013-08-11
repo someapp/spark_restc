@@ -25,7 +25,8 @@
        ]).
 
 -export([start/1,
-         init/1].
+         init/1]).
+         
 -export([start_link/1,
 		 start_link/2]).
 -export([handle_call/3,
@@ -110,7 +111,7 @@ environment(Environment) when is_atom(Environment)->
   gen_server:call(?SERVER, environment).
 
 environment([], _) -> [];
-environment(List, Environment)-> when is_atom(Environment)->
+environment(List, Environment) when is_atom(Environment)->
   get_key_val(List, Environment, []);
 environment(_,_) -> {error, badarg}.
 
@@ -185,7 +186,7 @@ start_link(Args)->
 
 init(Args)->
   [Conf_path, Conf_file, Use_mnesia_conf_store, Environment] = Args,
-  Filename = lists:concat([Path,"/", File]),
+  Filename = lists:concat([Conf_path,"/", Conf_file]),
   true = ec_file:exists(Filename),
   ConfList = load_config(Filename),
   Vsn = get_key_val(ConfList, version, 0),
@@ -268,7 +269,7 @@ handle_info(Unsupported, State)->
   		[?SERVER, Unsupported]),
   {noreply, State}.
 
-terminate(_Reason, _State)->
+terminate(Reason, _State)->
   error_logger:info_msg("[~p] Terminate with reason. ~p ",
   		[?SERVER, Reason]),
   ok.
@@ -291,7 +292,7 @@ create_config_in_mnesia(true) ->
   							{attributes, 
   								record_info(fields, 
   								environment_conf_schema)}
-  							]);
+  							]),
 
   		 {atomic, ok} = mnesia:create_table(spark_restc_conf,
   							[{ram_copies, [node()]},
@@ -310,11 +311,11 @@ create_config_in_mnesia(true) ->
         error_logger:info_msg("Failure to create_schema: ~p", [Else]),
         ok = app_util:start_app(mnesia)
   end,
-  End = now(),
+  End = get_now(),
   error_logger:info_msg("Create config table ~p Start ~p End ~p", [?SERVER, Start, End]),
   Ret.  
 
-now()->
+get_now()->
   Now = app_util:os_now(),
   ec_date:nparse(format("Y-m-d\\TH:i:s.f", Now)).
 
@@ -322,18 +323,18 @@ config_db_basic_populate(Table, Key, Val)
 		 when is_atom(Table),
 			  is_atom(Key) ->
   Fun = fun(Key, Val) ->
-  	 		mnesia:dirty_write({Table, Key, Val}),
+  	 		mnesia:dirty_write({Table, Key, Val})
   		end,
   {atomic, ok} = mnesia:transaction(Fun),
   {ok, {Key, updated}}.
     
-get_key_val([],_)-> {error, empty_config};
-get_key_val(List, Key, Default)
+get_key_val([],_)-> {error, empty_config}.
+get_key_val(List, Key, Default) ->
   proplists:get_value(Key, List, Default);
 get_key_val(Table, onPredicate, Default) ->
   Fun = 
   fun()-> 
-  	  qlc:eval(X || X <- mnesia:table(Table), onPredicate)  		
+  	  qlc:eval([X || X <- mnesia:table(Table), onPredicate])  		
   end,
   case (mnesia:transaction(Fun)) of
   		{atomic, <<"">>} -> Default;

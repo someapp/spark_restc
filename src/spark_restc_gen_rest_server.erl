@@ -3,7 +3,7 @@
 -compile([parse_transform, lager_transform]).
 
 -export([
-		 add_handler/2,
+		 add_handler/3,
 		 delete_handler/2,
 		 notify/2
 ]).
@@ -50,7 +50,7 @@ init(Arg0)->
   	 true -> 
   	 	spark_restc_config_server:load_config_db(Environment, Conf_file);
   	 false -> 
-  	 	spark_restc_config:load_config(Conf_path, Con_file)  
+  	 	spark_restc_config:load_config(Conf_path, Conf_file)  
   end,
   lists:foreach(fun(HandlerMod, Args) -> 
     error_logger:info_msg("[~p] Starting handler ~p with options ~p",	
@@ -73,7 +73,7 @@ init_it(HandlerModule, Args)->
 add_handler(RegisterName, HandlerMod, Args) when is_atom(HandlerMod)->
   gen_server:call(?SERVER, {add_handler , RegisterName, HandlerMod, Args}).
 
-remove_handler(RegisterName, HandlerMod) when is_atom(HandlerMod)->
+delete_handler(RegisterName, HandlerMod) when is_atom(HandlerMod)->
   gen_server:call(?SERVER, {remove_handler, RegisterName, HandlerMod}).
 
 notify(EventMgr, {HandlerMod, Message}) when is_atom(HandlerMod)->
@@ -94,7 +94,7 @@ handle_call({notify, RegisteredName, Message}, From, State)->
 
 
 handle_call(Request, From, State)->
-  error_logger:warn_msg("[~p] Message ~p ~p",[?SERVER, Request, not_supported]),
+  Reply = error_logger:warn_msg("[~p] Message ~p ~p",[?SERVER, Request, not_supported]),
   {ok, Reply, State}.
 
 handle_cast(Request, State)->
