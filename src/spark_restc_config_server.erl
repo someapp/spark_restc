@@ -11,7 +11,7 @@
 -export([
 	 	load_config/1,
 	    load_config_db/2,
-	 	version/0,
+	 	config_version/1,
 	 	spark_api_endpoint/1, 
 	 	spark_app_id/1,
 	 	spark_client_secret/1,
@@ -27,8 +27,7 @@
 -export([start/1,
          init/1]).
          
--export([start_link/1,
-		 start_link/2]).
+-export([start_link/1]).
 -export([handle_call/3,
 		 handle_cast/2,
 		 handle_info/2, 
@@ -38,6 +37,7 @@
 -type url() :: string() | undefined.
 -type accessToken() :: string() | undefined.
 -type config_val() :: term().
+-type reason() :: term().
 -type ok_or_error() :: {ok, config_val()} | {error, reason()}.
 -type fatalError() :: {'EXIT', {error, {atom(), not_found}}}.
 
@@ -81,7 +81,7 @@ load_config_db(Environment, Filename)->
   populate_id_map(IdMap).
 
 populate(Table, List) ->
-  [List0 || {K,V} <- List],
+  List0 = [{K,V} || {K,V} <- List],
   lists:map(
   	fun({Key,Val}) -> 
         {ok, {Key, updated}} = 
@@ -143,7 +143,7 @@ system_client_secret(Environment)->
   gen_server:call(?SERVER, {system_client_secret, Environment}).  
   
 system_client_secret(List, Environment)->
-  get_key_val(SectionList, 
+  get_key_val(List, 
       client_secret, "93XDnCIn30rNYcHVgOJ77kzZzjkCmhrUm3NJ1bf5gNA=").
 
 create_oauth_accesstoken(Environment)->
@@ -179,6 +179,7 @@ community_brand_idMap()->
 community_brand_idMap(List)->	
   get_key_val(List, community2brandId, []). 
 
+start(Args) -> start_link(Args).
   
 start_link(Args)-> 
   error_logger:info_msg(info,"Start linking ~p with Args ~p",[?MODULE, Args]),
@@ -317,7 +318,7 @@ create_config_in_mnesia(true) ->
 
 get_now()->
   Now = app_util:os_now(),
-  ec_date:nparse(format("Y-m-d\\TH:i:s.f", Now)).
+  ec_date:nparse(ec_date:format("Y-m-d\\TH:i:s.f", Now)).
 
 config_db_basic_populate(Table, Key, Val)
 		 when is_atom(Table),
