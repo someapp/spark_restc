@@ -12,7 +12,7 @@
 
 %% @doc Wrapper client to rest call to internal service api
 %% @end
--module(spark_restc_restrequest).
+-module(spark_restc_rest_request).
 -author('etsang@spark.net').
 
 -export([
@@ -142,10 +142,7 @@ get_send_mail_message_url(BrandId, OAuthToken, ResourceFullUrl)->
    ReplaceOpt = [global, {return, list}],	
    FullUrl = re:replace(ResourceFullUrl, "{brandId}", 
 		BrandId, ReplaceOpt),
-            {send_im_mail_message,
-	      "/brandId/{brandId}/mail/message"
-	  },
-  
+         
    restc:construct_url(
 		FullUrl,
 		[{"access_token", OAuthToken}]). 

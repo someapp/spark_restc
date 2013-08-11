@@ -12,16 +12,24 @@
 	 	load_config/1,
 	    load_config_db/2,
 	 	config_version/1,
-	 	spark_api_endpoint/1, 
-	 	spark_app_id/1,
-	 	spark_client_secret/1,
-	 	spark_oauth_access_token/0, 
-	 	spark_communityid_brandid_map/0,
-	 	auth_profile_miniProfile/0, 
-	 	profile_memberstatus/0, 
-	 	send_im_mail_message/0,
- 		rest_client_timeout_in_sec/0,
-	 	rest_call_retry_attempt/0
+	 	system_app_id/1,
+	 	system_app_id/2,
+	 	system_brand_id/1,
+	 	system_brand_id/2,
+	 	system_member_id/1,
+	 	system_member_id/2,
+	 	system_client_secret/1,
+	 	system_client_secret/2,
+	 	create_oauth_accesstoken/1, 
+	 	create_oauth_accesstoken/2,
+	 	community_brand_idMap/0,
+	    community_brand_idMap/1,
+	 	profile_miniProfile/1,
+	 	profile_miniProfile/2, 
+	 	profile_memberstatus/1, 
+	 	profile_memberstatus/2, 
+	 	send_im_mail_message/1,
+	 	send_im_mail_message/2
        ]).
 
 -export([start/1,
@@ -74,7 +82,7 @@ load_config(Filename)->
 load_config_db(Environment, Filename)->
   {ok, List} = load_config(Filename),
   {ok, EnvConf} = environment(List, Environment),
-  populate(EnvConf),
+  populate(environment_conf, EnvConf),
   {ok, Urls} = endpoints(List),
   populate(spark_restc_conf, Urls), 
   {ok, IdMap} = community_brand_idMap(List),
@@ -103,7 +111,9 @@ populate_table(Name, IdMap) when is_atom(Name)->
   lists:map(fun(L)-> true = ets:insert(Tab, L) end, IdMap);
 populate_table(_, _)->
   {error, badarg}.   
-    
+
+config_version()->
+  gen_server:call(?SERVER, version).    
 config_version(List)->
   get_key_val(List, version, undefined).
 
@@ -203,53 +213,68 @@ init(Args)->
   }}.
 
 handle_call(environment, _From, State)->
-  onPredicate = #environment_conf_schema.system_client_secret,
+  onPredicate = 
+    #environment_conf_schema.system_client_secret,
   Reply =  handle_message(environment_conf, onPredicate), 
   {ok, Reply, State};
 
 handle_call({system_app_id, Environment}, _From, State)->
-  onPredicate = #environment_conf_schema.system_client_secret,
+  onPredicate = 
+    #environment_conf_schema.system_client_secret,
   Reply =  handle_message(environment_conf, onPredicate), 
   {ok, Reply, State};
 
 handle_call({system_brand_id, Environment}, _From, State)->
-  onPredicate = #environment_conf_schema.system_client_secret,
+  onPredicate = 
+    #environment_conf_schema.system_client_secret,
   Reply =  handle_message(environment_conf, onPredicate), 
   {ok, Reply, State};
 
 handle_call({system_member_id, Environment}, _From, State)->
-  onPredicate = #environment_conf_schema.system_client_secret,
+  onPredicate = 
+    #environment_conf_schema.system_client_secret,
   Reply =  handle_message(environment_conf, onPredicate), 
   {ok, Reply, State};
 
 handle_call({system_client_secret, Environment}, _From, State)->
-  onPredicate = #environment_conf_schema.system_client_secret,
+  onPredicate = 
+    #environment_conf_schema.system_client_secret,
   Reply =  handle_message(environment_conf, onPredicate), 
   {ok, Reply, State};
 
-
+handle_call(version,_From, State)->
+  onPredicate =   
+    #spark_restc_conf_schema.version,
+  Reply =  handle_message(spark_restc_conf , onPredicate), 
+  {ok, Reply, State};
+    
 handle_call({profile_miniProfile, Environment}, _From, State)->
-  onPredicate = #spark_restc_conf_schema.auth_profile_miniProfile,
+  onPredicate = 
+    #spark_restc_conf_schema.auth_profile_miniProfile,
   Reply =  handle_message(spark_restc_conf , onPredicate), 
   {ok, Reply, State};
 
 handle_call({create_oauth_accesstoken, Environment}, _From, State)->
-  onPredicate = #spark_restc_conf_schema.create_oauth_accesstoken,
+  onPredicate = 
+    #spark_restc_conf_schema.create_oauth_accesstoken,
   Reply =  handle_message(spark_restc_conf , onPredicate), 
   {ok, Reply, State};
 
 handle_call({profile_memberstatus, Environment}, _From, State)->
-  onPredicate = #spark_restc_conf_schema.profile_memberstatus,
+  onPredicate = 
+    #spark_restc_conf_schema.profile_memberstatus,
   Reply =  handle_message(spark_restc_conf , onPredicate), 
   {ok, Reply, State};
 
 handle_call({send_im_mail_message, Environment}, _From, State)->
-  onPredicate = #spark_restc_conf_schema.send_im_mail_message,
+  onPredicate = 
+    #spark_restc_conf_schema.send_im_mail_message,
   Reply =  handle_message(spark_restc_conf , onPredicate), 
   {ok, Reply, State};
 
 handle_call(community_brand_idMap, _From, State)->
-  onPredicate = #spark_restc_conf_schema.community2brandId,
+  onPredicate = 
+    #spark_restc_conf_schema.community2brandId,
   Reply =  handle_message(spark_restc_conf , onPredicate), 
   {ok, Reply, State}.
 
@@ -330,9 +355,9 @@ config_db_basic_populate(Table, Key, Val)
   {ok, {Key, updated}}.
     
 get_key_val([],_)-> {error, empty_config}.
-get_key_val(List, Key, Default) ->
+get_key_val(List, Key, Default) when is_list(List) ->
   proplists:get_value(Key, List, Default);
-get_key_val(Table, onPredicate, Default) ->
+get_key_val(Table, onPredicate, Default) when is_atom(Table) ->
   Fun = 
   fun()-> 
   	  qlc:eval([X || X <- mnesia:table(Table), onPredicate])  		
